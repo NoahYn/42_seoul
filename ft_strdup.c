@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 14:31:17 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 18:55:32 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/02 21:18:23 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/02 21:38:16 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *b, int c, unsigned int len)
-{
-	char	*b2;
+#include <stdlib.h>
 
-	b2 = b;
-	while (len--)
-		*b2++ = c;
-	return (b);
+char	*ft_strdup(const char *src)
+{
+	int		len;
+	char	*dst;
+
+	len = 0;
+	while (src[len])
+		len++;
+	dst = (char *)malloc(sizeof(char) * (len + 1));
+	if (dst == 0)
+		return (0);
+	dst[len] = '\0';
+	while (len-- > 0)
+		dst[len] = src[len];
+	return (dst);
 }

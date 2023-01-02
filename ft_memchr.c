@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 14:31:17 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 18:55:32 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/02 19:15:37 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/02 19:19:12 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *b, int c, unsigned int len)
+void	*ft_memchr(const void *s, int c, unsigned int n)
 {
-	char	*b2;
+	int		i;
+	char	*s2;
 
-	b2 = b;
-	while (len--)
-		*b2++ = c;
-	return (b);
+	i = 0;
+	s2 = s;
+	while (n--)
+	{
+		if (s2[i] == c)
+			return (s + i);
+		i++;
+	}
+	return (0);
 }

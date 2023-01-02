@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 14:31:17 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 18:55:32 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/02 19:00:10 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/02 19:01:49 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *b, int c, unsigned int len)
+int	ft_tolower(int c)
 {
-	char	*b2;
-
-	b2 = b;
-	while (len--)
-		*b2++ = c;
-	return (b);
+	if (c >= 'A' && c <= 'Z')
+		return (c - 'A' + 'a');
+	else
+		return (c);
 }

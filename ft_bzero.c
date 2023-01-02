@@ -6,13 +6,13 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 14:48:26 by sunyoon           #+#    #+#             */
-/*   Updated: 2022/12/29 15:15:57 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/02 18:46:49 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	ft_bzero(void *s, unsigned int n)
 {
-	int	*s2;
+	char	*s2;
 
 	if (n == 0)
 		return ;

@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 14:31:17 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 18:55:32 by sunyoon          ###   ########.fr       */
+/*   Created: 2022/12/29 15:48:21 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/02 18:55:40 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *b, int c, unsigned int len)
+unsigned int	ft_strlcpy(char *restrict dst, char *restrict src,
+	unsigned int dstsize)
 {
-	char	*b2;
+	unsigned int	i;
+	unsigned int	len;
 
-	b2 = b;
-	while (len--)
-		*b2++ = c;
-	return (b);
+	if (!dst || !src)
+		return (0);
+	i = 0;
+	len = 0;
+	while (src[len])
+		len++;
+	while (i < len && i + 1 < dstsize)
+		dst[i++] = src[i++];
+	if (dstsize > 0)
+		dst[i] = '\0';
+	return (len);
 }
