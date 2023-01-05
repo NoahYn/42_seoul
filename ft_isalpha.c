@@ -6,13 +6,13 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 13:52:28 by sunyoon           #+#    #+#             */
-/*   Updated: 2022/12/29 14:01:21 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 14:35:30 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalpha(int c)
 {
-	if (c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z')
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		return (1);
 	else
 		return (0);

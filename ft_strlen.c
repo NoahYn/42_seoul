@@ -6,13 +6,15 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 14:22:36 by sunyoon           #+#    #+#             */
-/*   Updated: 2022/12/29 14:31:10 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 14:52:12 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned int	ft_strlen(const char *s)
+#include <stddef.h>
+
+size_t	ft_strlen(const char *s)
 {
-	unsigned int	len;
+	size_t	len;
 
 	len = 0;
 	while (s[len])

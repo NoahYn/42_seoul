@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 14:58:12 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 15:34:56 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/05 16:33:01 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/05 16:40:54 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include <stdlib.h>
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	if (!dst && !src)
-		return (dst);
-	while (n--)
-		*((unsigned char *)dst++) = *((unsigned char *)src++);
-	return (dst);
+	char	*substr;
+
+	substr = (char *)malloc(len);
+	if (substr == 0)
+		return (0);
+	while (*s && len--)
+		*substr++ = *s++;
+	return (substr);
 }

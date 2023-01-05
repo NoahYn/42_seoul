@@ -6,17 +6,16 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 14:48:26 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 18:46:49 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 15:32:35 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_bzero(void *s, unsigned int n)
-{
-	char	*s2;
+#include <stddef.h>
 
+void	ft_bzero(void *s, size_t n)
+{
 	if (n == 0)
 		return ;
-	s2 = s;
 	while (n--)
-		*s2++ = 0;
+		*((unsigned char *)s++) = 0;
 }

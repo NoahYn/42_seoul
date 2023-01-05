@@ -6,16 +6,15 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 14:31:17 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 18:55:32 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 15:35:33 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *b, int c, unsigned int len)
-{
-	char	*b2;
+#include <stddef.h>
 
-	b2 = b;
+void	*ft_memset(void *b, int c, size_t len)
+{
 	while (len--)
-		*b2++ = c;
+		*((unsigned char *)b++) = c;
 	return (b);
 }

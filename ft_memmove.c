@@ -6,28 +6,21 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 15:17:29 by sunyoon           #+#    #+#             */
-/*   Updated: 2022/12/29 15:47:15 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 15:35:15 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memmove(void *dst, const void *src, unsigned int len)
-{
-	char	*dst2;
-	char	*src2;
+#include <stddef.h>
 
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	if (!dst && !src)
+		return (dst);
 	if (src >= dst)
-	{
-		dst2 = dst;
-		src2 = src;
 		while (len--)
-			*dst2++ = *src2++;
-	}
+			*((unsigned char *)dst++) = *((unsigned char *)src++);
 	else
-	{
-		dst2 = dst + len;
-		src2 = src + len;
 		while (len--)
-			*dst2-- = *src2--;
-	}
+			*((unsigned char *)dst--) = *((unsigned char *)src--);
 	return (dst);
 }

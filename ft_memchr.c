@@ -6,22 +6,16 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 19:15:37 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/02 19:19:12 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:29:08 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memchr(const void *s, int c, unsigned int n)
-{
-	int		i;
-	char	*s2;
+#include <stddef.h>
 
-	i = 0;
-	s2 = s;
+void	*ft_memchr(const void *s, int c, size_t n)
+{
 	while (n--)
-	{
-		if (s2[i] == c)
-			return (s + i);
-		i++;
-	}
+		if (*((unsigned char *)s++) == (unsigned char)c)
+			return ((void *)--s);
 	return (0);
 }
