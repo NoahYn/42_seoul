@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:19:08 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 15:52:15 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:47:39 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*calloc(size_t count, size_t size)
 	if (!count && !size)
 		return (0);
 	mem = (char *)malloc(count * size);
-	if (mem == 0)
+	if (!mem)
 		return (0);
 	i = 0;
 	while (i < count * size)

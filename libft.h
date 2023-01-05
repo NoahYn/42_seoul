@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:38:28 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 16:40:47 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:53:14 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 typedef struct s_list
 {
-	void	*content;
-	s_list	*next;
+	void			*content;
+	struct s_list	*next;
 }	t_list;
 
 // Part 1 - Libc functions
@@ -48,9 +48,7 @@ int		ft_atoi(const char *str);
 
 void	*calloc(size_t count, size_t size);
 char	*ft_strdup(const char *src);
-
 // Part 2 - Additional functions
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-
 
 #endif
