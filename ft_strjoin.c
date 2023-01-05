@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:41:04 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 16:51:49 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/05 17:41:02 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*strjoin;
 	size_t	len1;
 	size_t	len2;
-	int		i;
+	size_t	i;
 
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
