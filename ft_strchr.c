@@ -6,14 +6,17 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 19:02:09 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 15:09:13 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/08 12:22:56 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
-		if (*s++ == (unsigned char) c)
+	while (*s || *s == (char)c)
+	{
+		if (*s == (char)c)
 			return ((char *)s);
+		++s;
+	}
 	return (0);
 }

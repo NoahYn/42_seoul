@@ -6,19 +6,22 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 19:10:11 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 15:11:13 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/08 12:31:19 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	last;
+	int	ri;
 
-	while (*s)
-		if (*s++ == c)
-			last = *s;
-	if (*s != 0)
-		return ((char *)s);
-	else
-		return (0);
+	ri = 0;
+	while (s[ri])
+		++ri;
+	while (s[ri])
+	{
+		if (s[ri] == (char)c)
+			return ((char *)s + ri);
+		--ri;
+	}
+	return (0);
 }

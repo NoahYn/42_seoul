@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 15:48:21 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/08 12:27:53 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/08 18:32:03 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/08 18:49:26 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 
-size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	i;
-	size_t	len;
+	unsigned int	i;
+	char			*strmapi;
 
-	if (!dst || !src)
+	if (!s || !f)
 		return (0);
 	i = 0;
-	len = 0;
-	while (src[len])
-		++len;
-	while (i < len && i + 1 < dstsize)
+	while (s[i])
+		i++;
+	strmapi = (char *)malloc(i + 1);
+	if (!strmapi)
+		return (0);
+	strmapi[i] = 0;
+	i = 0;
+	while (s[i])
 	{
-		dst[i] = src[i];
+		strmapi[i] = f(i, s[i]);
 		++i;
 	}
-	if (dstsize > 0)
-		dst[i] = '\0';
-	return (len);
+	return (strmapi);
 }
