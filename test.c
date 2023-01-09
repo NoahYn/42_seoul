@@ -1,14 +1,15 @@
 #include <stdlib.h>
-#include "ft_itoa.c"
+#include "ft_strlen.c"
 #include <assert.h>
 #include <strings.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 
 int main()
 {
-	int n = -20;
-	int b = -100;
-	printf("%s\n", ft_itoa(n));
-	printf("%s\n", ft_itoa(b));
+	char *s;
+
+	printf("%ld\n", ft_strlen(s));
+
 }
