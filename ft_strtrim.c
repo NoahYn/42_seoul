@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:53:56 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/16 17:57:12 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/16 21:37:55 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		start++;
 	while (start < end && ft_checkset(s1[end - 1], set))
 		end--;
-	strtrim = (char *)malloc(end - start + 1);
+	strtrim = (char *)malloc(sizeof(char) * (end - start + 1));
 	if (!strtrim)
 		return (0);
 	i = 0;
