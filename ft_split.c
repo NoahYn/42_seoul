@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 19:03:21 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/08 18:34:47 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/16 18:58:50 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,36 @@ static int	ft_cntstr(char const *s, char c)
 	cnt = 0;
 	while (s[i])
 	{
-		if (s[i] == c)
-		{
-			while (s[i] && s[i] == c)
-				++i;
+		while (s[i] && s[i] == c)
+			++i;
+		if (s[i])
 			++cnt;
-		}
-		else
+		while (s[i] && s[i] != c)
 			++i;
 	}
 	return (cnt);
 }
 
-static char	*ft_putstr(char const *s, int i, char c)
+static char	*ft_putstr(char const *s, char c)
 {
 	char	*str;
 	int		len;
 
-	len = i;
-	while (s[len] != c)
+	len = 0;
+	while (s[len] != c && s[len])
 		++len;
-	len -= i;
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (str == 0)
 		return (0);
 	str[len] = 0;
 	while (len--)
-		str[len] = s[i + len];
+		str[len] = s[len];
 	return (str);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**split;
+	char	**result;
 	int		num_str;
 	int		i;
 	int		si;
@@ -61,20 +58,19 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	num_str = ft_cntstr(s, c);
-	split = (char **)malloc(sizeof(char *) * (num_str + 1));
-	if (split == 0)
+	result = (char **)malloc(sizeof(char *) * (num_str + 1));
+	if (result == 0)
 		return (0);
-	split[num_str] = 0;
 	i = 0;
 	si = 0;
-	while (split[si])
+	while (si < num_str)
 	{
-		while (s[i] == c)
+		while (s[i] && s[i] == c)
 			++i;
-		if (s[i])
-			split[si++] = ft_putstr(s, i, c);
-		while (s[i] != c)
+		result[si++] = ft_putstr(s + i, c);
+		while (s[i] && s[i] != c)
 			++i;
 	}
-	return (split);
+	result[si] = 0;
+	return (result);
 }

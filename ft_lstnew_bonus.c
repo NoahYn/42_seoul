@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 11:25:02 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/09 11:33:07 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/09 16:33:37 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*lstnew;
 
-	lstnew = (t_list*)malloc(sizeof(t_list));
+	lstnew = (t_list *)malloc(sizeof(t_list));
 	if (!lstnew)
 		return (0);
 	lstnew->content = content;

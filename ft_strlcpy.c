@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 15:48:21 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/08 12:27:53 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/09 18:31:52 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 	size_t	i;
 	size_t	len;
 
-	if (!dst || !src)
-		return (0);
 	i = 0;
 	len = 0;
 	while (src[len])

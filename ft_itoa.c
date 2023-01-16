@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:23:36 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/08 18:28:13 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/16 18:14:17 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ char	*ft_itoa(int n)
 	if (!result)
 		return (0);
 	result[len] = 0;
+	sign = 1;
 	if (n < 0)
 	{
 		result[--len] = (n % 10) * (-1) + '0';
 		n /= -10;
-		sign = -1;
+		sign *= -1;
 	}
 	while (len--)
 	{

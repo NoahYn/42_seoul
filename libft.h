@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:38:28 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/09 16:19:54 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:28:36 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_atoi(const char *str);
 
-void	*calloc(size_t count, size_t size);
+void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *src);
 // Part 2 - Additional functions
 char	*ft_substr(char const *s, unsigned int start, size_t len);

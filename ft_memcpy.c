@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 14:58:12 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/05 15:34:56 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:04:26 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
+	unsigned char	*dst2;
+
 	if (!dst && !src)
 		return (dst);
+	dst2 = dst;
 	while (n--)
-		*((unsigned char *)dst++) = *((unsigned char *)src++);
+		*(dst2++) = *((unsigned char *)src++);
 	return (dst);
 }

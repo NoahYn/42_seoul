@@ -6,22 +6,22 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 19:10:11 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/08 12:31:19 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:40:58 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	ri;
+	int	len;
 
-	ri = 0;
-	while (s[ri])
-		++ri;
-	while (s[ri])
+	len = 0;
+	while (s[len])
+		++len;
+	while (len >= 0)
 	{
-		if (s[ri] == (char)c)
-			return ((char *)s + ri);
-		--ri;
+		if (s[len] == (char)c)
+			return ((char *)s + len);
+		--len;
 	}
 	return (0);
 }
