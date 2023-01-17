@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 19:03:21 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/16 21:42:24 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:14:58 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	ft_putstr(char const *s, char c, char **result, int si)
 	return (1);
 }
 
-char	**get_result(size_t n)
+static char	**get_result(size_t n)
 {
 	char	**result;
 

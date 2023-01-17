@@ -5,6 +5,7 @@ SRCS = \
 	ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c \
 	ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c ft_atoi.c \
 	ft_calloc.c ft_strdup.c \
+	\
 	ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c \
 	ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c
@@ -15,7 +16,6 @@ OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-HEADER = ./libft.h
 
 all : $(NAME)
 
@@ -23,16 +23,19 @@ $(NAME) : $(OBJS)
 	ar rcs $@ $^
 
 bonus : $(BONUS_OBJS)
-	ar rcs $(NAME) $^
+
+$(BONUS_OBJS) : $(BONUS)
+	$(CC) $(FLAG) -c $^
+	ar rcs $(NAME) $@
 
 %.o : $.c
-	$(CC) $(FLAG) -I ($HEADER) -c $< -o $@
+	$(CC) $(FLAG) -c $<
 
 clean :
-	rm -f $(OBJS) $(BONUS_OBJS)
+	@rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean : clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re : fclean all
 

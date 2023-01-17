@@ -6,12 +6,12 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:58:29 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/16 21:47:26 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:26:31 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+#include "libft_bonus.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {

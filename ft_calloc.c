@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:19:08 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/16 21:37:14 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/17 14:44:32 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t			i;
 	unsigned char	*mem;
 
+	if (size * count < size || size * count < count)
+		return (0);
 	mem = (unsigned char *)malloc(sizeof(unsigned char) * count * size);
 	if (!mem)
 		return (0);

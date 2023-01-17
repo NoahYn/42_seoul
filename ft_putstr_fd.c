@@ -6,15 +6,16 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 10:54:49 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/16 17:03:03 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:14:42 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stddef.h>
 
-static int	ft_strlen(char *s)
+static size_t	ft_strlen(char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
