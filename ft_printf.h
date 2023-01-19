@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 10:58:45 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/19 11:41:48 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/19 12:03:15 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/19 13:59:50 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-void	ft_putnbr_fd(int n, int fd)
-{
-	char	c;
+# include <unistd.h>
+# include <stdarg.h>
+# include "libft/libft.h"
 
-	if (n < 0)
-	{
-		write(fd, "-", 1);
-		if (n == -2147483648)
-		{
-			write(fd, "2147483648", 10);
-			return ;
-		}
-		n *= -1;
-	}
-	if (n >= 10)
-		ft_putnbr_fd(n / 10, fd);
-	c = n % 10 + '0';
-	write(fd, &c, 1);
-}
+int	ft_printf(const char *s, ...);
+
+#endif

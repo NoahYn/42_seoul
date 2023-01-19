@@ -6,69 +6,51 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:01:50 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/17 17:28:56 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/01/19 14:00:05 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h> // write
-#include <stdlib.h> // malloc, free
-#include <stdarg.h> // va_start, va_arg, va_copy, va_end
-#include <stdio.h> // printf("%d", )
-
-#include "libft/libft.h"
+#include "ft_printf.h"
 
 static void	ft_putui_fd(unsigned int u, int fd)
 {
 	char	c;
 
 	if (u >= 10)
-		ft_putnbr_fd(u / 10, fd);
+		ft_putui_fd(u / 10, fd);
 	c = u % 10 + '0';
 	write(fd, &c, 1);
 }
 
-static void	ft_putptr_fd(unsigned int p, int fd)
+static void	ft_puthex_fd(unsigned long n, char format, int fd)
 {
-	int		i;
-	char	addr[16];
+	char	c;
 
-	write(1, "0x", 2);
-	i = 0;
-	while (i < 16)
+	if (format == 'p')
 	{
-		if (p == 0)
-			addr[i] = '0';
-		else
-			addr[i] = "0123456789abcdef"[p % 16];
-		p /= 16;
-		++i;
+		write(fd, "0x", 2);
+		format = 'x';
 	}
-	while (i-- > 0)
-		write(1, &addr[i], 1);
+	if (n >= 16)
+		ft_puthex_fd(n / 16, format, fd);
+	c = ft_toupper("0123456789abcdef"[n % 16]);
+	write (fd, &c, 1);
 }
 
-static void	handle_format(const char *s, int i, va_list ap)
+static void	handle_format(const char c, va_list ap)
 {
-	void	*arg;
-
-	if (s[i] == 'c')
-		write(1, va_arg(ap, char), 1);
-	else if (s[i] == '%')
+	if (c == 'c')
+		ft_putchar_fd(va_arg(ap, int), 1);
+	else if (c == '%')
 		write(1, "%%", 1);
-	else if (s[i] == 's')
+	else if (c == 's')
 		ft_putstr_fd(va_arg(ap, char *), 1);
-	else if (s[i] == 'd' || s[i] == 'i')
+	else if (c == 'd' || c == 'i')
 		ft_putnbr_fd(va_arg(ap, int), 1);
-	else if (s[i] == 'u')
+	else if (c == 'u')
 		ft_putui_fd(va_arg(ap, unsigned int), 1);
-
-		
-	else if (s[i] == 'p')
-		ft_putptr_fd(va_arg(ap, void *), 1);
-	else if (s[i] == 'x')
-		va_arg(ap, int); // hexademical(base 16)				
-	else if (s[i] == 'X')
-		va_arg(ap, int); // hexademical uppercase
+	else if (c == 'p' || c == 'x' || c == 'X')
+		ft_puthex_fd(va_arg(ap, unsigned long long), c, 1);
 }
 
 int	ft_printf(const char *s, ...)
@@ -82,10 +64,11 @@ int	ft_printf(const char *s, ...)
 	{
 		if (s[i] == '%')
 		{
-			handle_format(s, ++i, ap);
+			handle_format(s[++i], ap);
 			++i;
 		}
-		write(1, &s[i++], 1);
+		else
+			write(1, &s[i++], 1);
 	}
 	va_end(ap);
 	return (i);

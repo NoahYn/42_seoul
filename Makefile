@@ -1,7 +1,7 @@
 NAME = libftprintf.a
 SRCS = ft_printf.c
-
 OBJS = $(SRCS:.c=.o)
+LIB = libft
 
 CC = cc
 FLAGS = -Wall -Wextra -Werror
@@ -9,16 +9,19 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	ar rcs $@ $^
+	@$(MAKE) -C $(LIB) all
+	ar rcs $@ $(LIB)/libft.a $(OBJS) 
 
 %.o : $.c
-	$(CC) $(FLAGS) -I $(HEADER) -c $< -o $@
+	$(CC) $(FLAGS) -c $<
 
 clean :
-	rm -f $(OBJS)
+	@$(MAKE) -C $(LIB) clean
+	@rm -f $(OBJS)
 
 fclean : clean
-	rm -f $(NAME)
+	@$(MAKE) -C $(LIB) fclean
+	@rm -f $(NAME)
 
 re : fclean all
 

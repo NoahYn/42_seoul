@@ -25,11 +25,11 @@ $(NAME) : $(OBJS)
 bonus : $(BONUS_OBJS)
 
 $(BONUS_OBJS) : $(BONUS)
-	$(CC) $(FLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
 	ar rcs $(NAME) $@
 
 %.o : $.c
-	$(CC) $(FLAG) -c $<
+	$(CC) $(CFLAGS) -c $<
 
 clean :
 	@rm -f $(OBJS) $(BONUS_OBJS)
