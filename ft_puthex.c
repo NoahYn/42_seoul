@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/19 12:03:15 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:48:46 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/20 23:39:29 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/20 23:43:53 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <unistd.h>
-# include <stdarg.h>
-# include "libft/libft.h"
+void	ft_puthex(unsigned int n, char format, int *num)
+{
+	char	c;
 
-int		ft_printf(const char *s, ...);
-void	ft_putstr(char *s, int *num);
-void	ft_putnbr(int n, int *num);
-void	ft_putui(unsigned int u, int *num);
-void	ft_puthex(unsigned int n, char format, int *num);
-void	ft_putaddr(unsigned long long n, int *num);
-
-#endif
+	++(*num);
+	if (n >= 16)
+		ft_puthex(n / 16, format, num);
+	c = "0123456789abcdef"[n % 16];
+	if (format == 'X')
+		c = ft_toupper(c);
+	write(1, &c, 1);
+}

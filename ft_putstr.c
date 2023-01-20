@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/19 12:03:15 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:48:46 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/20 23:41:27 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/01/20 23:43:04 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include <unistd.h>
 
-# include <unistd.h>
-# include <stdarg.h>
-# include "libft/libft.h"
+void	ft_putstr(char *s, int *num)
+{
+	int	len;
 
-int		ft_printf(const char *s, ...);
-void	ft_putstr(char *s, int *num);
-void	ft_putnbr(int n, int *num);
-void	ft_putui(unsigned int u, int *num);
-void	ft_puthex(unsigned int n, char format, int *num);
-void	ft_putaddr(unsigned long long n, int *num);
-
-#endif
+	if (!s)
+	{
+		*num += write(1, "(null)", 6);
+		return ;
+	}
+	len = 0;
+	while (s[len])
+		++len;
+	*num += write(1, s, len);
+}

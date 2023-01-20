@@ -1,5 +1,5 @@
 NAME = libftprintf.a
-SRCS = ft_printf.c
+SRCS = ft_printf.c ft_putstr.c ft_putnbr.c ft_puthex.c ft_putaddr.c
 OBJS = $(SRCS:.c=.o)
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
