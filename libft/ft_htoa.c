@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putaddr.c                                       :+:      :+:    :+:   */
+/*   ft_htoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 23:40:45 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/02/10 13:18:33 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/08 17:23:36 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/02/10 13:30:31 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include <stdlib.h>
 
-void	ft_putaddr(unsigned long long n, int *num)
+static int	ft_numlen(unsigned int n)
 {
-	char	c;
-	int		temp;
+	int	len;
 
-	if (*num == 0)
-		*num += write(1, "0x", 2);
-	if (*num == -1)
-		return ;
-	++(*num);
-	if (n > 15)
-		ft_putaddr(n / 16, num);
-	c = "0123456789abcdef"[n % 16];
-	temp = write(1, &c, 1);
-	if (temp == -1)
-		*num = -1;
+	len = 1;
+	while (n / 16)
+	{
+		++len;
+		n /= 16;
+	}
+	return (len);
+}
+
+char	*ft_htoa(unsigned int h)
+{
+	char	*result;
+	int		len;
+
+	len = ft_numlen(h);
+	result = (char *)malloc(sizeof(char) * len + 1);
+	if (!result)
+		return (0);
+	result[len] = 0;
+	while (len--)
+	{
+		result[len] = "0123456789abcdef"[h % 16];
+		h /= 16;
+	}
+	return (result);
 }

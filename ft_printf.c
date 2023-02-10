@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:01:50 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:49:51 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/02/10 13:25:27 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,31 @@
 
 static int	parse_format(const char format, va_list ap)
 {
-	int				count;
 	unsigned char	c;
+	int				num;
 
-	count = 0;
 	if (format == 'c')
 	{
 		c = (unsigned char)(va_arg(ap, int));
-		count += write(1, &c, 1);
+		return (write(1, &c, 1));
 	}
 	else if (format == '%')
-		count += write(1, "%%", 1);
+		return (write(1, "%%", 1));
 	else if (format == 's')
-		ft_putstr(va_arg(ap, char *), &count);
+		return (ft_putstr(va_arg(ap, char *)));
 	else if (format == 'd' || format == 'i')
-		ft_putnbr(va_arg(ap, int), &count);
+		return (ft_putnbr(va_arg(ap, int)));
 	else if (format == 'u')
-		ft_putui(va_arg(ap, unsigned int), &count);
-	else if (format == 'p')
-		ft_putaddr(va_arg(ap, unsigned long long), &count);
+		return (ft_putui(va_arg(ap, unsigned int)));
 	else if (format == 'x' || format == 'X')
-		ft_puthex(va_arg(ap, unsigned int), format, &count);
-	return (count);
+		return (ft_puthex(va_arg(ap, unsigned int), format));
+	else if (format == 'p')
+	{
+		num = 0;
+		ft_putaddr(va_arg(ap, unsigned long long), &num);
+		return (num);
+	}
+	return (0);
 }
 
 int	ft_printf(const char *s, ...)
@@ -43,6 +46,7 @@ int	ft_printf(const char *s, ...)
 	va_list	ap;
 	int		i;
 	int		count;
+	int		temp;
 
 	va_start(ap, s);
 	i = 0;
@@ -51,11 +55,14 @@ int	ft_printf(const char *s, ...)
 	{
 		if (s[i] == '%')
 		{
-			count += parse_format(s[++i], ap);
+			temp = parse_format(s[++i], ap);
 			++i;
 		}
 		else
-			count += write(1, &s[i++], 1);
+			temp = write(1, &s[i++], 1);
+		if (temp == -1)
+			return (-1);
+		count += temp;
 	}
 	va_end(ap);
 	return (count);
