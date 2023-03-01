@@ -6,120 +6,110 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 13:15:00 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/02/28 14:13:29 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/03/01 22:11:55 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	free_ptr(char **buff, char **next_line)
+static char	*del_fdNode(t_fdNode **list, t_fdNode *node)
 {
-	if (*buff)
-		free(*buff);
-	if (*next_line)
-		free(*next_line);
-	return ;
+	t_fdNode	*head;
+
+	head = *list;
+	if (head == node)
+	{
+		*list = node->next;
+		free(node);
+		return (0);
+	}
+	while (head)
+	{
+		if (head->next == node)
+		{
+			head->next = node->next;
+			free(node);
+			return (0);
+		}
+		head->next = head;
+	}
+	return (0);
+}
+
+static t_fdNode	*set_fdNode(int fd)
+{
+	t_fdNode	*node;
+	
+	node = (t_fdNode *)malloc(sizeof(t_fdNode));
+	if (!node)
+		return (0);
+	node->fd = fd;
+	node->count = 0;
+	node->buff[0] = 0;
+	node->next = 0;
+	return (node);
+}
+
+static t_fdNode	*get_fdNode(t_fdNode **list, int fd) {
+	t_fdNode	*node;
+
+	if (!*list)
+	{
+		*list = set_fdNode(fd);
+		return (*list);
+	}
+	node = *list;
+	while (node)
+	{
+		if (node->fd == fd) {
+			return (node);
+		}
+		if (node->next == 0) {
+			node->next = set_fdNode(fd);
+			return (node->next);
+		}
+		node = node->next;
+	}
+	return (0);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
-	char		*temp;
-	char		*line;
-	int			num;
+	static t_fdNode *head;
+	t_fdNode		*node;
+	char			*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1 || !get_fdNode(&head, fd))
 		return (0);
-	if (save)
+	node = get_fdNode(&head, fd);
+	line = 0;
+	while (1)
 	{
-		num = ft_strchr(save, '\n');
-		if (num == -1) // can't find '\n'
+		if (node->buff[0] == 0)
 		{
-			line = ft_strldup(save, ft_strlen(save));
-			if (!line)
-				return (0);
-		}
-		else // find '\n'
-		{
-			line = ft_strldup(save, num);
-			if (!line)
-				return (0);
-			if (ft_strlen(save + num + 1) == 0)
+			node->count = read(node->fd, node->buff, BUFFER_SIZE);
+			if (node->count == -1) // read_count == -1
+				return (del_fdNode(&head, node));
+			else if (node->count == 0) // EOF	
 			{
-				free(save);
-				save = 0;
+				del_fdNode(&head, node);
 				return (line);
 			}
-			temp = ft_strldup(save + num + 1, ft_strlen(save + num + 1));
-			if (!temp)
-			{
-				free(line);
-				return (0);
-			}
-			free(save);
-			save = temp;
-			return (line);
+			node->buff[node->count] = 0;
 		}
-	}
-	num = 1;
-	while (num > 0)
-	{
-		temp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!temp)
-		{
-			if (line)
-				free(line);
-			return (0);
-		}
-		num = read(fd, temp, BUFFER_SIZE);
-		if (num == -1 || (num == 0 && !line))
-		{
-			free_ptr(&temp, &line);
-			return (0);
-		}
-		if (num == 0)
-			return (line);
-		temp[num] = 0;
-		if (ft_strchr(temp, '\n') != -1) // find
-		{
-			num = ft_strchr(temp, '\n');
-			if (!line)
-			{
-				line = ft_strldup(temp, num + 1);
-				if (!line)
-				{
-					free(temp);
-					return (0);
-				}
-			}
-			else
-				ft_strjoin(line, temp, num);
-			if (ft_strlen(temp + num + 1) > 0)
-			{
-				save = ft_strldup(temp + num + 1, ft_strlen(temp + num + 1));
-				if (!save)
-				{
-					free_ptr(&temp, &line);
-					return (0);
-				}
-			}
-			free(temp);
-			return (line);
-		}
+		node->count = _ft_strchr(node->buff, '\n');
+		line = _ft_strjoin(line, node->buff, node->count);
 		if (!line)
+			return (del_fdNode(&head, node));
+		if (!node->count)	// can't find '\n', keep going
+			node->buff[0] = 0;
+		else 
 		{
-			line = ft_strldup(temp, num);
-			if (!line)
-			{
-				free(temp);
-				return (0);
-			}
+			if (ft_strlen(node->buff + node->count))
+				ft_memcpy(node->buff, &(node->buff[node->count]), BUFFER_SIZE - node->count + 1);
+			else
+				node->buff[0] = 0;
+			return (line);
 		}
-		else
-		{
-			ft_strjoin(line, temp, num);
-		}
-		free(temp);
 	}
-	return (line);
 }
