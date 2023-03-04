@@ -6,6 +6,7 @@
 		"optional": "cpp",
 		"unordered_map": "cpp",
 		"typeinfo": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"istream": "c"
 	}
 }

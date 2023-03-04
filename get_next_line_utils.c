@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 13:15:12 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/03/01 20:54:37 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/03/04 22:18:37 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,14 @@ char	*_ft_strjoin(char *s1, char const *s2, size_t n)
 		len_s2 = n;
 	strjoin = (char *)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
 	if (!strjoin)
+	{
+		free(s1);
 		return (0);
+	}
 	ft_memcpy(strjoin, s1, len_s1);
 	free(s1);
 	ft_memcpy(strjoin + len_s1, s2, len_s2);
 	strjoin[len_s1 + len_s2] = 0;
 	return (strjoin);
 }
+

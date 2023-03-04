@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:57:26 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/03/01 21:42:50 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/03/04 20:32:20 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,23 @@
 
 int	main(void)
 {
-	int		fd, fd2;
-	char	*s;
+	int		fd;
+	char	*name = "test.txt";
+//	char	*s;
 
-	fd = open("test.txt", O_RDONLY);
-	fd2 = open("test2.txt", O_RDONLY);
-	printf ("%s", get_next_line(fd));
-	printf ("%s", get_next_line(fd2));
-	printf ("%s", get_next_line(fd));
-	printf ("%s", get_next_line(fd2));		
-	
+	fd = open(name, O_RDONLY);
+//	fd2 = open("test2.txt", O_RDONLY);
+	printf ("1 %s", get_next_line(fd));
+	printf ("2 %s", get_next_line(fd));
+	printf ("3 %s", get_next_line(fd));
+	close(fd);
+	fd = open(name, O_RDONLY);
+	printf ("4 %s", get_next_line(fd));		
+	printf ("5 %s", get_next_line(fd));		
+	printf ("6 %s", get_next_line(fd));		
+	printf ("7 %s", get_next_line(fd));		
+	printf ("8 %s", get_next_line(fd));		
+/*	
 	if (BUFFER_SIZE > 100) {
 		char *temp;
 		do
@@ -50,5 +57,5 @@ int	main(void)
 	printf ("%s", get_next_line(fd2));		
 	printf ("%s", get_next_line(fd));
 	printf ("%s", get_next_line(fd));		
-	
+*/	
 }

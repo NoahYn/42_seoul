@@ -6,66 +6,69 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 13:15:00 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/03/01 22:11:55 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/03/04 22:23:16 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*del_fdNode(t_fdNode **list, t_fdNode *node)
+static char	*del_fdnode(t_fdnode **list, t_fdnode *node, char *line)
 {
-	t_fdNode	*head;
+	t_fdnode	*temp;
 
-	head = *list;
-	if (head == node)
+	if (node == 0)
+		return (line);
+	if (*list == node)
 	{
 		*list = node->next;
 		free(node);
-		return (0);
+		return (line);
 	}
-	while (head)
+	temp = *list;
+	while (temp)
 	{
-		if (head->next == node)
+		if (temp->next == node)
 		{
-			head->next = node->next;
+			temp->next = node->next;
 			free(node);
-			return (0);
+			return (line);
 		}
-		head->next = head;
+		temp->next = temp;
 	}
-	return (0);
+	return (line);
 }
 
-static t_fdNode	*set_fdNode(int fd)
+static t_fdnode	*set_fdnode(int fd)
 {
-	t_fdNode	*node;
-	
-	node = (t_fdNode *)malloc(sizeof(t_fdNode));
+	t_fdnode	*node;
+
+	node = (t_fdnode *)malloc(sizeof(t_fdnode));
 	if (!node)
 		return (0);
 	node->fd = fd;
-	node->count = 0;
-	node->buff[0] = 0;
+	node->n = 0;
+	node->bf[0] = 0;
 	node->next = 0;
 	return (node);
 }
 
-static t_fdNode	*get_fdNode(t_fdNode **list, int fd) {
-	t_fdNode	*node;
+static t_fdnode	*get_fdnode(t_fdnode **list, int fd)
+{
+	t_fdnode	*node;
 
 	if (!*list)
 	{
-		*list = set_fdNode(fd);
+		*list = set_fdnode(fd);
 		return (*list);
 	}
 	node = *list;
 	while (node)
 	{
-		if (node->fd == fd) {
+		if (node->fd == fd)
 			return (node);
-		}
-		if (node->next == 0) {
-			node->next = set_fdNode(fd);
+		if (node->next == 0)
+		{
+			node->next = set_fdnode(fd);
 			return (node->next);
 		}
 		node = node->next;
@@ -73,43 +76,45 @@ static t_fdNode	*get_fdNode(t_fdNode **list, int fd) {
 	return (0);
 }
 
+int	_read(t_fdnode *node, char **line)
+{
+	if (node->bf[0] != 0)
+		return (1);
+	node->n = read(node->fd, node->bf, BUFFER_SIZE);
+	if (node->n == -1)
+		*line = 0;
+	if (node->n <= 0)
+		return (0);
+	node->bf[node->n] = 0;
+	return (1);
+}
+
 char	*get_next_line(int fd)
 {
-	static t_fdNode *head;
-	t_fdNode		*node;
+	static t_fdnode	*head;
+	t_fdnode		*nd;
 	char			*line;
 
-	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1 || !get_fdNode(&head, fd))
-		return (0);
-	node = get_fdNode(&head, fd);
+	nd = get_fdnode(&head, fd);
+	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1 || !nd)
+		return (del_fdnode(&head, nd, 0));
 	line = 0;
 	while (1)
 	{
-		if (node->buff[0] == 0)
-		{
-			node->count = read(node->fd, node->buff, BUFFER_SIZE);
-			if (node->count == -1) // read_count == -1
-				return (del_fdNode(&head, node));
-			else if (node->count == 0) // EOF	
-			{
-				del_fdNode(&head, node);
-				return (line);
-			}
-			node->buff[node->count] = 0;
-		}
-		node->count = _ft_strchr(node->buff, '\n');
-		line = _ft_strjoin(line, node->buff, node->count);
+		if (!_read(nd, &line))
+			return (del_fdnode(&head, nd, line));
+		nd->n = _ft_strchr(nd->bf, '\n');
+		line = _ft_strjoin(line, nd->bf, nd->n);
 		if (!line)
-			return (del_fdNode(&head, node));
-		if (!node->count)	// can't find '\n', keep going
-			node->buff[0] = 0;
-		else 
+			return (del_fdnode(&head, nd, 0));
+		if (nd->n)
 		{
-			if (ft_strlen(node->buff + node->count))
-				ft_memcpy(node->buff, &(node->buff[node->count]), BUFFER_SIZE - node->count + 1);
+			if (ft_strlen(nd->bf + nd->n))
+				ft_memcpy(nd->bf, &(nd->bf[nd->n]), BUFFER_SIZE - nd->n +1);
 			else
-				node->buff[0] = 0;
+				nd->bf[0] = 0;
 			return (line);
 		}
+		nd->bf[0] = 0;
 	}
 }
