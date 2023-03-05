@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sunyoon <sunyoon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 13:15:00 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/03/05 09:27:52 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/03/05 11:05:40 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*del_fdnode(t_fdnode **list, t_fdnode *node, char *line)
 {
