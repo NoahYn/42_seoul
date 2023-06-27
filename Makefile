@@ -1,5 +1,5 @@
 NAME = push_swap
-
+SRCS = push_swap.c stk_fn.c
 PRT_PATH = ./ft_printf
 PRT = $(PRT_PATH)/libftprintf.a
 LIB_PATH = $(PRT_PATH)/libft
@@ -11,10 +11,7 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME) $(NAME2)
 
 $(NAME) : $(PRT)
-	$(CC) $(FLAGS) -o $(NAME) $(SRV) $(PRT)
-
-$(NAME2) : $(PRT)
-	$(CC) $(FLAGS) -o $(NAME2) $(CLI) $(PRT)
+	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(PRT)
 
 $(PRT) :
 	@$(MAKE) -C $(PRT_PATH) all
