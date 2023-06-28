@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 12:03:22 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 12:39:27 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,34 @@ typedef struct s_cmd {
 	int	rrr;
 }	t_cmd;
 
+
+// errorhandle.c
+long long	ft_atoll(const char *str);
+int			isdup(t_bst *curr, int num);
+void		check_err(int argc, char *argv[], t_stack *a);
+int			cnt_inverse_order(t_stack *stk);
+
 // stack function -> stk_fn.c
-void	push(t_stack *stk, int item);
-int		pop(t_stack *stk);
-void	swap(t_stack *stk);
-void	rotate(t_stack *stk);
-void	reverse_rotate(t_stack *stk);
+void		push(t_stack *stk, int item);
+int			pop(t_stack *stk);
+void		swap(t_stack *stk);
+void		rotate(t_stack *stk);
+void		reverse_rotate(t_stack *stk);
 
 // stack command -> stk_cmd[1,2,3].c
-void	pa(t_cmd *cmd, t_stack *a, t_stack *b);
-void	pb(t_cmd *cmd, t_stack *a, t_stack *b);
-void	sa(t_cmd *cmd, t_stack *a);
-void	sb(t_cmd *cmd, t_stack *b);
-void	ss(t_cmd *cmd, t_stack *a, t_stack *b);
-void	ra(t_cmd *cmd, t_stack *a);
-void	rb(t_cmd *cmd, t_stack *b);
-void	rr(t_cmd *cmd, t_stack *a, t_stack *b);
-void	rra(t_cmd *cmd, t_stack *a);
-void	rrb(t_cmd *cmd, t_stack *b);
-void	rrr(t_cmd *cmd, t_stack *a, t_stack *b);
+void		pa(t_cmd *cmd, t_stack *a, t_stack *b);
+void		pb(t_cmd *cmd, t_stack *a, t_stack *b);
+void		sa(t_cmd *cmd, t_stack *a);
+void		sb(t_cmd *cmd, t_stack *b);
+void		ss(t_cmd *cmd, t_stack *a, t_stack *b);
+void		ra(t_cmd *cmd, t_stack *a);
+void		rb(t_cmd *cmd, t_stack *b);
+void		rr(t_cmd *cmd, t_stack *a, t_stack *b);
+void		rra(t_cmd *cmd, t_stack *a);
+void		rrb(t_cmd *cmd, t_stack *b);
+void		rrr(t_cmd *cmd, t_stack *a, t_stack *b);
 
-void	print(t_stack *a, t_stack *b);
-
+void		print(t_stack *a, t_stack *b);
 
 #endif
 

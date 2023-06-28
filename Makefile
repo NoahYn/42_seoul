@@ -1,5 +1,5 @@
 NAME = push_swap
-SRCS = main.c stk_fn.c stk_cmd1.c stk_cmd2.c stk_cmd3.c debug.c
+SRCS = main.c errorhandle.c stk_fn.c stk_cmd1.c stk_cmd2.c stk_cmd3.c debug.c
 PRT_PATH = ./ft_printf
 PRT = $(PRT_PATH)/libftprintf.a
 LIB_PATH = $(PRT_PATH)/libft
