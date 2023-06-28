@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:11:06 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/26 17:33:44 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 12:21:14 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	push(t_stack *stk, int item)
 	push_node->next = NULL;
 	push_node->prev = stk->top;
 	stk->top = push_node;
+	if (stk->bottom == NULL)
+		stk->bottom = push_node;
 }
 
 int	pop(t_stack *stk)
@@ -32,6 +34,8 @@ int	pop(t_stack *stk)
 	t_node	*pop_node;
 	int		pop_item;
 
+	if (stk->size == 1)
+		stk->bottom = NULL;
 	pop_node = stk->top;
 	pop_item = pop_node->item;
 	stk->top = stk->top->prev;
@@ -56,8 +60,10 @@ void	rotate(t_stack *stk)
 {
 	stk->top->next = stk->bottom;
 	stk->bottom->prev = stk->top;
+	stk->bottom = stk->top;
 	stk->top = stk->top->prev;
-	stk->top->prev = 0;
+	stk->top->next = 0;
+	stk->bottom->prev = 0;
 }
 
 void	reverse_rotate(t_stack *stk)
@@ -65,5 +71,7 @@ void	reverse_rotate(t_stack *stk)
 	stk->top->next = stk->bottom;
 	stk->bottom->prev = stk->top;
 	stk->top = stk->bottom;
-	stk->bottom->next = 0;
+	stk->bottom = stk->bottom->next;
+	stk->bottom->prev = 0;
+	stk->top->next = 0;
 }

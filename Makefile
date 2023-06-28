@@ -1,5 +1,5 @@
 NAME = push_swap
-SRCS = push_swap.c stk_fn.c
+SRCS = main.c stk_fn.c stk_cmd1.c stk_cmd2.c stk_cmd3.c debug.c
 PRT_PATH = ./ft_printf
 PRT = $(PRT_PATH)/libftprintf.a
 LIB_PATH = $(PRT_PATH)/libft
@@ -7,8 +7,9 @@ LIB = $(LIB_PATH)/libft.a
 
 CC = cc
 FLAGS = -Wall -Wextra -Werror
+DBG = -fsanitize=address
 
-all : $(NAME) $(NAME2)
+all : $(NAME) 
 
 $(NAME) : $(PRT)
 	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(PRT)
@@ -27,4 +28,9 @@ re : fclean all
 
 bonus : all
 
-.PHONY: all clean fclean re
+debug : $(DBG)
+
+$(DBG) : $(PRT)
+	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(PRT) $(DBG)
+
+.PHONY: all clean fclean re bonus debug
