@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:11:06 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 12:58:23 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 21:15:46 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	swap(t_stack *stk)
 
 void	rotate(t_stack *stk)
 {
+	if (stk->size == 0) 
+		return;
 	stk->top->next = stk->bottom;
 	stk->bottom->prev = stk->top;
 	stk->bottom = stk->top;
@@ -69,6 +71,8 @@ void	rotate(t_stack *stk)
 
 void	reverse_rotate(t_stack *stk)
 {
+	if (stk->size == 0) 
+		return;
 	stk->top->next = stk->bottom;
 	stk->bottom->prev = stk->top;
 	stk->top = stk->bottom;

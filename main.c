@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 15:58:57 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 21:41:37 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,68 +59,128 @@ int		min_element(int *arr, int size)
 	return (0);
 }
 
-void	merge_rect_B(t_cmd *cmd, t_stack *a, t_stack *b, int seq, int *sapb)
+void	merge_tri_A2B(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 {
-	if (seq == 1 || (seq == 2 && *sapb == 0))
+	if (seq == 1)
 	{
 		pb(cmd, a, b);
-		*sapb = 0;
 	}
 	else if (seq == 2)
-	{
-		sa(cmd, a, b);
-		pb(cmd, a, b);
-	}
-	else if (seq == 3)
 	{
 		rra(cmd, a, b);
 		pb(cmd, a, b);
 	}
-	else if (seq == 4)
+	else if (seq == 3)
 	{
 		rrb(cmd, a, b);
 	}
 }
 
+void	merge_tri_B2A(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
+{
+	if (seq == 1)
+	{
+		pa(cmd, a, b);
+	}
+	else if (seq == 2)
+	{
+		rrb(cmd, a, b);
+		pa(cmd, a, b);
+	}
+	else if (seq == 3)
+	{
+		rra(cmd, a, b);
+	}
+}
+
 void	a2b(t_cmd *cmd, t_stack *a, t_stack *b)
 {
-	int	quater;
+	int	i;
+	int	one_third;
 	int sequence;
-	int rect[4];
-	int sapb;
+	int tri[3];
+	int step;
 
 	// push quater func
-	quater = a->size / 4;
-	while (quater--)
+	one_third = a->size / 3;
+	i = 0;
+	while (i++ < one_third)
 		pb(cmd, a, b);
-	ft_printf("after pb quater\n");
+	ft_printf("after pb one third\n");
 	print(a, b);
-	while (a->size > 2)
+	step = 0;
+	while (a->size > 0)
 	{
+		step++;
 		sequence = 0;
 		// init rect func
-		rect[0] = a->top->item;
-		rect[1] = a->top->prev->item;
-		rect[2] = a->bottom->item;
-		rect[3] = b->bottom->item;
-//		ft_printf("%d, %d, %d, %d\n", rect[0], rect[1], rect[2], rect[3]);
+		tri[0] = a->top->item;
+		tri[1] = a->bottom->item;
+		tri[2] = b->bottom->item;
+		ft_printf("%d, %d, %d\n", tri[0], tri[1], tri[2]);
 		do
 		{
 			sequence *= 10;
-			sequence += min_element(rect, 4);
-		} while (sequence < 1000);
-		sapb = 1;
+			if (one_third-- > 0)
+				sequence += min_element(tri, 4);
+			else
+				sequence += max_element(tri, 3);
+		} while (sequence < 100);
 //		ft_printf("%d\n", sequence);
 		while (sequence > 0)
 		{
-			merge_rect_B(cmd, a, b, sequence % 10, &sapb);
+			merge_tri_A2B(cmd, a, b, sequence % 10);
 			sequence /= 10;
 		}
-		ft_printf("after one rect\n");
+		ft_printf("after one triangle\n");
 		print(a, b);
-
 	}
 }
+
+void	b2a(t_cmd *cmd, t_stack *a, t_stack *b)
+{
+	int	i;
+	int	one_third;
+	int sequence;
+	int tri[3];
+	int step;
+
+	// push quater func
+	one_third = b->size / 3;
+	i = 0;
+	while (i++ < one_third)
+		pa(cmd, a, b);
+	ft_printf("after pa one third\n");
+	print(a, b);
+	step = 0;
+	while (b->size > 0)
+	{
+		step++;
+		sequence = 0;
+		// init rect func
+		tri[0] = b->top->item;
+		tri[1] = b->bottom->item;
+		tri[2] = a->bottom->item;
+		ft_printf("%d, %d, %d\n", tri[0], tri[1], tri[2]);
+		do
+		{
+			sequence *= 10;
+//			if (one_third-- > 0)
+				sequence += min_element(tri, 3);
+//			else
+//				sequence += max_element(tri, 3);
+		} while (sequence < 100);
+//		ft_printf("%d\n", sequence);
+		while (sequence > 0)
+		{
+			merge_tri_B2A(cmd, a, b, sequence % 10);
+			sequence /= 10;
+		}
+		ft_printf("after one triangle\n");
+		print(a, b);
+	}
+}
+
 
 int get_totalcmd(t_cmd *cmd)
 {
@@ -152,6 +212,7 @@ int	main(int argc, char *argv[])
 	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
 	print(&a, &b);
 	a2b(&cmd, &a, &b);
+	b2a(&cmd, &a, &b);
 	ft_printf("total = %d\n", get_totalcmd(&cmd));
 }
 
