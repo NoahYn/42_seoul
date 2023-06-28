@@ -1,5 +1,15 @@
 #include "push_swap.h"
 
+void	init(t_stack *a, t_stack *b)
+{
+	a->size = 0;
+	a->top = NULL;
+	a->bottom = NULL;
+	b->size = 0;
+	b->top = NULL;
+	b->bottom = NULL;
+}
+
 long long	ft_atoll(const char *str)
 {
 	int			sign;

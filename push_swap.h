@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 12:39:27 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 12:51:21 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_cmd {
 
 
 // errorhandle.c
+void		init(t_stack *a, t_stack *b);
 long long	ft_atoll(const char *str);
 int			isdup(t_bst *curr, int num);
 void		check_err(int argc, char *argv[], t_stack *a);

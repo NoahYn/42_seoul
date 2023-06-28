@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:11:06 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 12:45:23 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 12:58:23 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ int	pop(t_stack *stk)
 	t_node	*pop_node;
 	int		pop_item;
 
-	if (stk->size == 1)
+	if (stk->size-- == 1)
 		stk->bottom = NULL;
 	pop_node = stk->top;
 	pop_item = pop_node->item;
 	stk->top = stk->top->prev;
-	stk->top->next = NULL;
+	if (stk->top)
+		stk->top->next = NULL;
 	free(pop_node);
 	return (pop_item);
 }
