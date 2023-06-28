@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 23:46:57 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/02/10 13:34:39 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/01/20 23:39:29 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/06/28 16:48:47 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-int	ft_putnbr(int n)
+int	ft_puthex(unsigned int n, char format)
 {
-	char	*nbr;
+	char	*hex;
 	int		temp;
+	int		i;
 
-	nbr = ft_itoa(n);
-	if (nbr == 0)
+	hex = ft_htoa(n);
+	if (hex == 0)
 		return (-1);
-	temp = write(1, nbr, ft_strlen(nbr));
-	free(nbr);
-	return (temp);
-}
-
-int	ft_putui(unsigned int u)
-{
-	char	*ui;
-	int		temp;
-
-	ui = ft_utoa(u);
-	if (ui == 0)
-		return (-1);
-	temp = write(1, ui, ft_strlen(ui));
-	free(ui);
+	if (format == 'X')
+	{
+		i = 0;
+		while (hex[i])
+		{
+			hex[i] = ft_toupper(hex[i]);
+			++i;
+		}
+	}
+	temp = write(1, hex, ft_strlen(hex));
+	free(hex);
 	return (temp);
 }

@@ -1,8 +1,6 @@
 NAME = push_swap
 SRCS = main.c errorhandle.c stk_fn.c stk_cmd1.c stk_cmd2.c stk_cmd3.c debug.c
-PRT_PATH = ./ft_printf
-PRT = $(PRT_PATH)/libftprintf.a
-LIB_PATH = $(PRT_PATH)/libft
+LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
 
 CC = cc
@@ -11,18 +9,18 @@ DBG = -fsanitize=address
 
 all : $(NAME) 
 
-$(NAME) : $(PRT)
-	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(PRT)
+$(NAME) : $(LIB)
+	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(LIB)
 
-$(PRT) :
-	@$(MAKE) -C $(PRT_PATH) all
+$(LIB) :
+	@$(MAKE) -C $(LIB_PATH) all
 
 clean :
-	@$(MAKE) -C $(PRT_PATH) clean
+	@$(MAKE) -C $(LIB_PATH) clean
 
 fclean : 
-	@$(MAKE) -C $(PRT_PATH) fclean
-	@rm -f $(NAME) $(NAME2)
+	@$(MAKE) -C $(LIB_PATH) fclean
+	@rm -f $(NAME) 
 
 re : fclean all
 
@@ -30,7 +28,7 @@ bonus : all
 
 debug : $(DBG)
 
-$(DBG) : $(PRT)
-	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(PRT) $(DBG)
+$(DBG) : $(LIB)
+	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(LIB) $(DBG)
 
 .PHONY: all clean fclean re bonus debug

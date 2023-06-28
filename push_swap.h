@@ -6,15 +6,16 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 16:00:04 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 16:50:02 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <unistd.h> // read, write, malloc, free, exit
-# include "ft_printf/ft_printf.h"
+# include <unistd.h> // read, write
+# include <stdlib.h> // malloc, free, exit
+# include "libft/libft.h"
 
 # define INTMAX 2147483647
 # define INTOVER 10000000000
