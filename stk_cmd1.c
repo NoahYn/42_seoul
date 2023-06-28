@@ -14,15 +14,17 @@ void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
 	ft_printf("pb\n");
 }
 
-void	sa(t_cmd *cmd, t_stack *a)
+void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 {
+	b->size = b->size;
 	swap(a);
 	cmd->sa++;
 	ft_printf("sa\n");
 }
 
-void	sb(t_cmd *cmd, t_stack *b)
+void	sb(t_cmd *cmd, t_stack *a, t_stack *b)
 {
+	a->size = a->size;
 	swap(b);
 	cmd->sb++;
 	ft_printf("sb\n");
@@ -30,8 +32,8 @@ void	sb(t_cmd *cmd, t_stack *b)
 
 void	ss(t_cmd *cmd, t_stack *a, t_stack *b)
 {
-	sa(cmd, a);
-	sb(cmd, b);
+	sa(cmd, a, b);
+	sb(cmd, a, b);
 	cmd->ss++;
 	ft_printf("ss\n");
 }

@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	init(t_stack *a, t_stack *b)
+void	init(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	a->size = 0;
 	a->top = NULL;
@@ -8,6 +8,17 @@ void	init(t_stack *a, t_stack *b)
 	b->size = 0;
 	b->top = NULL;
 	b->bottom = NULL;
+	cmd->pa = 0;
+	cmd->pb = 0;
+	cmd->sa = 0;
+	cmd->sb = 0;
+	cmd->ss = 0;
+	cmd->ra = 0;
+	cmd->rb = 0;
+	cmd->rr = 0;
+	cmd->rra = 0;
+	cmd->rrb = 0;
+	cmd->rrr = 0;
 }
 
 long long	ft_atoll(const char *str)

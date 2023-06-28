@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 12:51:21 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/28 16:00:04 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_cmd {
 
 
 // errorhandle.c
-void		init(t_stack *a, t_stack *b);
+void		init(t_cmd *cmd, t_stack *a, t_stack *b);
 long long	ft_atoll(const char *str);
 int			isdup(t_bst *curr, int num);
 void		check_err(int argc, char *argv[], t_stack *a);
@@ -70,14 +70,14 @@ void		reverse_rotate(t_stack *stk);
 // stack command -> stk_cmd[1,2,3].c
 void		pa(t_cmd *cmd, t_stack *a, t_stack *b);
 void		pb(t_cmd *cmd, t_stack *a, t_stack *b);
-void		sa(t_cmd *cmd, t_stack *a);
-void		sb(t_cmd *cmd, t_stack *b);
+void		sa(t_cmd *cmd, t_stack *a, t_stack *b);
+void		sb(t_cmd *cmd, t_stack *a, t_stack *b);
 void		ss(t_cmd *cmd, t_stack *a, t_stack *b);
-void		ra(t_cmd *cmd, t_stack *a);
-void		rb(t_cmd *cmd, t_stack *b);
+void		ra(t_cmd *cmd, t_stack *a, t_stack *b);
+void		rb(t_cmd *cmd, t_stack *a, t_stack *b);
 void		rr(t_cmd *cmd, t_stack *a, t_stack *b);
-void		rra(t_cmd *cmd, t_stack *a);
-void		rrb(t_cmd *cmd, t_stack *b);
+void		rra(t_cmd *cmd, t_stack *a, t_stack *b);
+void		rrb(t_cmd *cmd, t_stack *a, t_stack *b);
 void		rrr(t_cmd *cmd, t_stack *a, t_stack *b);
 
 void		print(t_stack *a, t_stack *b);
@@ -85,37 +85,3 @@ void		print(t_stack *a, t_stack *b);
 #endif
 
 
-
-
-/*
-step 1 -> 스택a의 요소 중 1/3을 스택b로 푸시
-	b로 푸시하는 과정에서 정렬? 
-a : 1 9 4 | 2 5 3 7 8 6 0
-pb pb pb
-
-step 2 -> a의 양끝과 b의 끝 총 세 요소를 비교하여 b의 탑에 정렬
-a : 2/ 5 3 7 8 6 0/
-b : 4 9 1/
-rra pb
-
-a : 2/ 5 3 7 8 6/
-b : 0 | 4 9 1/
-rrb
-
-a : 2/ 5 3 7 8 6/
-b : 1 0 | 4 9/
-pb
-
-a : 5/ 3/ 7 8 6/
-b : 2 1 0 | 4 9/
-pb pb
-
-a : 7/ 8 6/
-b : 3 5 2 1 0 | 4 9/
-rra pb pb pb rrb
-
-a :  
-b : 9 8 7 6 3 5 2 1 0 | 4
-
-
-*/

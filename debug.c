@@ -16,4 +16,5 @@ void print(t_stack *a, t_stack *b)
 		ft_printf("%d ", b->top->item);
 		rotate(b);
 	}
+	ft_printf("\n\n");
 }
