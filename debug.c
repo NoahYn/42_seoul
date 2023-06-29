@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void print(t_stack *a, t_stack *b)
+void print_stack(t_stack *a, t_stack *b)
 {
 	int size = a->size;
 	ft_printf("stack A : ");	
@@ -17,4 +17,16 @@ void print(t_stack *a, t_stack *b)
 		rotate(b);
 	}
 	ft_printf("\n\n");
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	t_node2 *curr;
+
+	curr = cmd->first->next;
+	while (curr)
+	{
+		ft_printf("%s\n", curr->cmd);
+		curr = curr->next;
+	}
 }

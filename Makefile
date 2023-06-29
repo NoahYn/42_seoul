@@ -1,5 +1,9 @@
 NAME = push_swap
-SRCS = main.c errorhandle.c stk_fn.c stk_cmd1.c stk_cmd2.c debug.c
+SRCS = main.c errorhandle.c debug.c \
+	stk_fn.c stk_cmd1.c stk_cmd2.c \
+	cmd_utils.c \
+	sort_small.c
+
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
 

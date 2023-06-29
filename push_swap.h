@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/29 21:28:38 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/30 03:03:06 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,20 @@ void		rra(t_cmd *cmd, t_stack *a, t_stack *b);
 void		rrb(t_cmd *cmd, t_stack *a, t_stack *b);
 void		rrr(t_cmd *cmd, t_stack *a, t_stack *b);
 
-void		print(t_stack *a, t_stack *b);
+// debug.c
+void		print_stack(t_stack *a, t_stack *b);
+void		print_cmd(t_cmd *cmd);
+
+// cmd_utils.c
+void		do_cmds(char *cmdset, t_cmd *cmd, t_stack *a, t_stack *b);
+void		cmd_multiply(char *cmdset, int num, t_cmd *cmd, t_stack *a, t_stack *b);
+
+// sort_small.c
+void		sort_small_a(t_cmd *cmd, t_stack *a, t_stack *b);
+void		find_min(int min_idx[2], t_stack *stk);
+void		sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b);
+void		pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num);
+
 
 #endif
 
