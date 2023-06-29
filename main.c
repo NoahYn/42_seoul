@@ -6,12 +6,65 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/29 22:55:49 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/30 02:46:02 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
+void	cmd_multiply(char *cmdset, int num, t_cmd *cmd, t_stack *a, t_stack *b)
+{
+	while (num--)
+	{
+		if (ft_strncmp(cmdset, "pa", 4) == 0)
+			pa(cmd, a, b);
+		else if (ft_strncmp(cmdset, "pb", 4) == 0)
+			pb(cmd, a, b);
+		else if (ft_strncmp(cmdset, "sa", 4) == 0)
+			sa(cmd, a, b);
+		else if (ft_strncmp(cmdset, "sb", 4) == 0)
+			sb(cmd, a, b);
+		else if (ft_strncmp(cmdset, "ra", 4) == 0)
+			ra(cmd, a, b);
+		else if (ft_strncmp(cmdset, "rb", 4) == 0)
+			rb(cmd, a, b);
+		else if (ft_strncmp(cmdset, "rra", 4) == 0)
+			rra(cmd, a, b);
+		else if (ft_strncmp(cmdset, "rrb", 4) == 0)
+			rrb(cmd, a, b);
+	}	
+}
+
+void	do_cmds(char *cmdset, t_cmd *cmd, t_stack *a, t_stack *b)
+{
+	int		i;
+	char	**split;
+
+	split = ft_split(cmdset, ' ');
+	i = -1;
+	while (split[++i])
+	{
+		if (ft_strncmp(split[i], "pa", 4) == 0)
+			pa(cmd, a, b);
+		else if (ft_strncmp(split[i], "pb", 4) == 0)
+			pb(cmd, a, b);
+		else if (ft_strncmp(split[i], "sa", 4) == 0)
+			sa(cmd, a, b);
+		else if (ft_strncmp(split[i], "sb", 4) == 0)
+			sb(cmd, a, b);
+		else if (ft_strncmp(split[i], "ra", 4) == 0)
+			ra(cmd, a, b);
+		else if (ft_strncmp(split[i], "rb", 4) == 0)
+			rb(cmd, a, b);
+		else if (ft_strncmp(split[i], "rra", 4) == 0)
+			rra(cmd, a, b);
+		else if (ft_strncmp(split[i], "rrb", 4) == 0)
+			rrb(cmd, a, b);
+		free(split[i]);
+	}
+	free(split);
+}
+
 
 int		max_element(t_triangle *tri)
 {
@@ -101,9 +154,7 @@ void	a2b(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 
 	// push quater func
 	one_third = a->size / 3;
-	i = 0;
-	while (i++ < one_third)
-		pb(cmd, a, b);
+	cmd_multiply("pb", one_third, cmd, a, b);
 	ft_printf("after pb one third\n");
 	print(a, b);
 
@@ -145,8 +196,7 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 	// push quater func
 	one_third = b->size / 3;
 	i = 0;
-	while (i++ < one_third)
-		pa(cmd, a, b);
+	cmd_multiply("pa", one_third, cmd, a, b);
 	ft_printf("after pa one third\n");
 	print(a, b);
 
@@ -179,7 +229,7 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 	}
 }
 
-void	sort_three(t_cmd *cmd, t_stack *a, t_stack *b)
+void	sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	if (T1 < T2 && T1 < T3)
 	{
@@ -192,10 +242,7 @@ void	sort_three(t_cmd *cmd, t_stack *a, t_stack *b)
 		if (T2 < T3)
 			ra(cmd, a, b);
 		else
-		{
-			sa(cmd, a, b);
-			rra(cmd, a, b);
-		}
+			do_cmds("sa rra", cmd, a, b);
 	}
 	else
 	{
@@ -250,10 +297,7 @@ void	pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num)
 		else if (min_idx[0] == 5 || min_idx[2] == 5)
 			rra(cmd, a, b);
 		else
-		{
-			ra(cmd, a, b);
-			ra(cmd, a, b);
-		}
+			cmd_multiply("ra", 2, cmd, a, b);
 		pb(cmd, a, b);
 	}
 	find_min(min_idx, a);
@@ -270,18 +314,17 @@ void	sort_small(t_cmd *cmd, t_stack *a, t_stack *b)
 	if (a->size == 2)
 		sa(cmd, a, b);
 	else if (a->size == 3)
-		sort_three(cmd, a, b);
+		sort_three_a(cmd, a, b);
 	else
 	{
 		pb_min(cmd, a, b, a->size - 3);
 		print(a, b);
-		sort_three(cmd, a, b);
+		sort_three_a(cmd, a, b);
 		print(a, b);
 		if (b->size == 2 && b->top->item < b->top->prev->item)
 			sb(cmd, a, b);
 		print(a, b);
-		while (b->size > 0)
-			pa(cmd, a, b);
+		cmd_multiply("pa", b->size, cmd, a, b);
 	}
 }
 
@@ -291,6 +334,7 @@ void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 		sort_small(cmd, a, b);
 	else
 	{
+		
 
 	a2b(cmd, a, b, 3);
 //	if (cnt_inverse_order(b))
