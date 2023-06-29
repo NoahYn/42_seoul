@@ -5,10 +5,15 @@ void	ra(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_node2	*newcmd;
 	
 	b->size = b->size;
-	if (a->size < 2 || ft_strncmp(cmd->last->cmd, "rra", 3) == 0)
+	if (a->size < 2)
 		return ;
 	rotate(a);
-	if (cmd->last && ft_strncmp(cmd->last->cmd, "rb", 3) == 0)
+	if (ft_strncmp(cmd->last->cmd, "rra", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
+	if (ft_strncmp(cmd->last->cmd, "rb", 3) == 0)
 	{
 		ft_strlcpy(cmd->last->cmd, "rr", 4);
 		return ;
@@ -29,10 +34,15 @@ void	rb(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_node2	*newcmd;
 	
 	a->size = a->size;
-	if (b->size < 2 || ft_strncmp(cmd->last->cmd, "rrb", 3) == 0)
+	if (b->size < 2)
 		return ;
 	rotate(b);
-	if (cmd->last && ft_strncmp(cmd->last->cmd, "ra", 3) == 0)
+	if (ft_strncmp(cmd->last->cmd, "rra", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
+	if (ft_strncmp(cmd->last->cmd, "ra", 3) == 0)
 	{
 		ft_strlcpy(cmd->last->cmd, "rr", 4);
 		return ;
@@ -53,10 +63,15 @@ void	rra(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_node2	*newcmd;
 	
 	b->size = b->size;
-	if (a->size < 2 || ft_strncmp(cmd->last->cmd, "ra", 3) == 0)
+	if (a->size < 2)
 		return ;
 	reverse_rotate(a);
-	if (cmd->last && ft_strncmp(cmd->last->cmd, "rrb", 4) == 0)
+	if (ft_strncmp(cmd->last->cmd, "ra", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
+	if (ft_strncmp(cmd->last->cmd, "rrb", 4) == 0)
 	{
 		ft_strlcpy(cmd->last->cmd, "rrr", 4);
 		return ;
@@ -77,10 +92,15 @@ void	rrb(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_node2	*newcmd;
 	
 	a->size = a->size;
-	if (b->size < 2 || ft_strncmp(cmd->last->cmd, "rb", 3) == 0)
+	if (b->size < 2)
 		return ;
 	reverse_rotate(b);
-	if (cmd->last && ft_strncmp(cmd->last->cmd, "rra", 4) == 0)
+	if (ft_strncmp(cmd->last->cmd, "rb", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
+	if (ft_strncmp(cmd->last->cmd, "rra", 4) == 0)
 	{
 		ft_strlcpy(cmd->last->cmd, "rrr", 4);
 		return ;

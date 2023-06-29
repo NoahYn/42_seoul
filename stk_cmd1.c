@@ -4,9 +4,14 @@ void	pa(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_node2	*newcmd;
 
-	if (b->size == 0 || ft_strncmp(cmd->last->cmd, "pb", 3) == 0)
+	if (b->size == 0) 
 		return ;
 	push(a, pop(b));
+	if (ft_strncmp(cmd->last->cmd, "pb", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
 	if (!newcmd)
 		exit(1);
@@ -22,9 +27,14 @@ void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_node2	*newcmd;
 
-	if (a->size == 0 || ft_strncmp(cmd->last->cmd, "pa", 3) == 0)
+	if (a->size == 0)
 		return ;
 	push(b, pop(a));
+	if (ft_strncmp(cmd->last->cmd, "pa", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
 	if (!newcmd)
 		exit(1);
@@ -41,10 +51,15 @@ void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_node2	*newcmd;
 	
 	b->size = b->size;
-	if (a->size < 2 || ft_strncmp(cmd->last->cmd, "sa", 3) == 0) 
+	if (a->size < 2)
 		return ;
 	swap(a);
-	if (cmd->last && ft_strncmp(cmd->last->cmd, "sb", 3) == 0)
+	if (ft_strncmp(cmd->last->cmd, "sa", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
+	if (ft_strncmp(cmd->last->cmd, "sb", 3) == 0)
 	{
 		ft_strlcpy(cmd->last->cmd, "ss", 4);
 		return ;
@@ -65,10 +80,15 @@ void	sb(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_node2	*newcmd;
 	
 	b->size = b->size;
-	if (a->size < 2 || ft_strncmp(cmd->last->cmd, "sb", 3) == 0)
+	if (a->size < 2)
 		return ;
 	swap(b);
-	if (cmd->last && ft_strncmp(cmd->last->cmd, "sa", 3) == 0)
+	if (ft_strncmp(cmd->last->cmd, "sb", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		return ;
+	}
+	if (ft_strncmp(cmd->last->cmd, "sa", 3) == 0)
 	{
 		ft_strlcpy(cmd->last->cmd, "ss", 4);
 		return ;

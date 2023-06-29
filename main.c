@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/29 21:36:44 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/29 22:55:49 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,34 +179,111 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 	}
 }
 
+void	sort_three(t_cmd *cmd, t_stack *a, t_stack *b)
+{
+	if (T1 < T2 && T1 < T3)
+	{
+		if (T2 < T3)
+			return;
+		sa(cmd, a, b);
+	}
+	if (T1 > T2 && T1 > T3)
+	{
+		if (T2 < T3)
+			ra(cmd, a, b);
+		else
+		{
+			sa(cmd, a, b);
+			rra(cmd, a, b);
+		}
+	}
+	else
+	{
+		if (T2 < T3)
+			sa(cmd, a, b);
+		else
+			rra(cmd, a, b);
+	}
+}
+
+void	find_min(int min_idx[2], t_stack *stk)
+{
+	int min[2];
+	int	idx;
+	t_node *curr;
+
+	curr = stk->top;
+	min[0] = INTMAX;
+	min[1] = INTMAX;
+	min_idx[0] = -1;
+	min_idx[1] = -1;
+	idx = 0;
+	while (curr)
+	{
+		idx++;
+		if (min[0] > curr->item)
+		{
+			min[1] = min[0];
+			min_idx[1] = min_idx[0];
+			min[0] = curr->item;
+			min_idx[0] = idx; 
+		}
+		else if (min[1] > curr->item)
+		{
+			min[1] = curr->item;
+			min_idx[1] = idx;
+		}
+		curr = curr->prev;
+	}
+}
+
+void	pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num)
+{
+	int min_idx[2];
+
+	find_min(min_idx, a);
+	if (num == 2)
+	{
+		if (min_idx[0] == 1 || min_idx[1] == 1) ;
+		else if (min_idx[0] == 2 || min_idx[2] == 2)
+			ra(cmd, a, b);
+		else if (min_idx[0] == 5 || min_idx[2] == 5)
+			rra(cmd, a, b);
+		else
+		{
+			ra(cmd, a, b);
+			ra(cmd, a, b);
+		}
+		pb(cmd, a, b);
+	}
+	find_min(min_idx, a);
+	if (min_idx[0] == 4)
+		rra(cmd, a, b);
+	else
+		while (min_idx[0]-- > 1)
+			ra(cmd, a, b);
+	pb(cmd, a, b);
+}
+
 void	sort_small(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	if (a->size == 2)
 		sa(cmd, a, b);
 	else if (a->size == 3)
+		sort_three(cmd, a, b);
+	else
 	{
-		if (T1 < T2 && T1 < T3)
-			sa(cmd, a, b);
-		if (T1 > T2 && T1 > T3)
-		{
-			if (T2 < T3)
-				ra(cmd, a, b);
-			else
-			{
-				sa(cmd, a, b);
-				rra(cmd, a, b);
-			}
-		}
-		else
-		{
-			if (T2 < T3)
-				sa(cmd, a, b);
-			else
-				rra(cmd, a, b);
-		}
+		pb_min(cmd, a, b, a->size - 3);
+		print(a, b);
+		sort_three(cmd, a, b);
+		print(a, b);
+		if (b->size == 2 && b->top->item < b->top->prev->item)
+			sb(cmd, a, b);
+		print(a, b);
+		while (b->size > 0)
+			pa(cmd, a, b);
 	}
 }
-
 
 void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 {
@@ -250,9 +327,9 @@ int	main(int argc, char *argv[])
 	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
 	print(&a, &b);
 	sort_stack(&cmd, &a, &b);
-	print_cmd(&cmd);
 	ft_printf("inv_cnt = %d\nafter sort\n", cnt_inverse_order(&a));
 	print(&a, &b);
+	print_cmd(&cmd);
 
 	// compress_cmd
 	// print_cmd
