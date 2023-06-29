@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:38:28 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 16:37:53 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/29 16:48:21 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-//ft_printf
+// math
+int		ft_pow(int a, int b);
+
+// ft_printf
 int		ft_printf(const char *s, ...);
 int		ft_putstr(char *s);
 int		ft_putnbr(int n);

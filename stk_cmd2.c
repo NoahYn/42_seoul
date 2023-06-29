@@ -2,24 +2,96 @@
 
 void	ra(t_cmd *cmd, t_stack *a, t_stack *b)
 {
+	t_node2	*newcmd;
+	
 	b->size = b->size;
+	if (a->size < 2 || ft_strncmp(cmd->last->cmd, "rra", 3) == 0)
+		return ;
 	rotate(a);
-	cmd->ra++;
-	ft_printf("ra\n");
+	if (cmd->last && ft_strncmp(cmd->last->cmd, "rb", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "rr", 4);
+		return ;
+	}
+	newcmd = (t_node2 *)malloc(sizeof(t_node2));
+	if (!newcmd)
+		exit(1);
+	newcmd->next = 0;
+	ft_strlcpy(newcmd->cmd, "ra", 4);
+	ft_printf("%s\n", newcmd->cmd);
+	cmd->last->next = newcmd;
+	newcmd->prev = cmd->last;
+	cmd->last = newcmd;
 }
 
 void	rb(t_cmd *cmd, t_stack *a, t_stack *b)
 {
+	t_node2	*newcmd;
+	
 	a->size = a->size;
+	if (b->size < 2 || ft_strncmp(cmd->last->cmd, "rrb", 3) == 0)
+		return ;
 	rotate(b);
-	cmd->rb++;
-	ft_printf("rb\n");
+	if (cmd->last && ft_strncmp(cmd->last->cmd, "ra", 3) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "rr", 4);
+		return ;
+	}
+	newcmd = (t_node2 *)malloc(sizeof(t_node2));
+	if (!newcmd)
+		exit(1);
+	newcmd->next = 0;
+	ft_strlcpy(newcmd->cmd, "rb", 4);
+	ft_printf("%s\n", newcmd->cmd);
+	cmd->last->next = newcmd;
+	newcmd->prev = cmd->last;
+	cmd->last = newcmd;
 }
 
-void	rr(t_cmd *cmd, t_stack *a, t_stack *b)
+void	rra(t_cmd *cmd, t_stack *a, t_stack *b)
 {
-	ra(cmd, a, b);
-	rb(cmd, a, b);
-	cmd->rr++;
-	ft_printf("rr\n");
+	t_node2	*newcmd;
+	
+	b->size = b->size;
+	if (a->size < 2 || ft_strncmp(cmd->last->cmd, "ra", 3) == 0)
+		return ;
+	reverse_rotate(a);
+	if (cmd->last && ft_strncmp(cmd->last->cmd, "rrb", 4) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "rrr", 4);
+		return ;
+	}
+	newcmd = (t_node2 *)malloc(sizeof(t_node2));
+	if (!newcmd)
+		exit(1);
+	newcmd->next = 0;
+	ft_strlcpy(newcmd->cmd, "rra", 4);
+	ft_printf("%s\n", newcmd->cmd);
+	cmd->last->next = newcmd;
+	newcmd->prev = cmd->last;
+	cmd->last = newcmd;
+}
+
+void	rrb(t_cmd *cmd, t_stack *a, t_stack *b)
+{
+	t_node2	*newcmd;
+	
+	a->size = a->size;
+	if (b->size < 2 || ft_strncmp(cmd->last->cmd, "rb", 3) == 0)
+		return ;
+	reverse_rotate(b);
+	if (cmd->last && ft_strncmp(cmd->last->cmd, "rra", 4) == 0)
+	{
+		ft_strlcpy(cmd->last->cmd, "rrr", 4);
+		return ;
+	}
+	newcmd = (t_node2 *)malloc(sizeof(t_node2));
+	if (!newcmd)
+		exit(1);
+	newcmd->next = 0;
+	ft_strlcpy(newcmd->cmd, "rrb", 4);
+	ft_printf("%s\n", newcmd->cmd);
+	cmd->last->next = newcmd;
+	newcmd->prev = cmd->last;
+	cmd->last = newcmd;
 }

@@ -6,57 +6,56 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 21:41:37 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/29 21:36:44 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
 
-int		max_element(int *arr, int size)
+int		max_element(t_triangle *tri)
 {
-	int	i;
-	int	j;
+	int max;
+	int max_idx;
+	int i;
 
 	i = -1;
-	while (++i < size)
+	max = INTMIN;
+	max_idx = -1;
+	while (++i < 3)
 	{
-		j = -1;
-		while (++j < size)
+		if (tri->vtx_size[i] == 0) continue;
+		if (max < tri->vertex[i])
 		{
-			if (arr[i] < arr[j])
-				break;
-		}
-		if (j == size)
-		{
-			arr[i] = INTMIN;
-			return (i+1);
+			max = tri->vertex[i];
+			max_idx = i;
 		}
 	}
-	return (0);
+	tri->vtx_size[max_idx]--;
+	return (max_idx+1);
 }
 
-int		min_element(int *arr, int size)
+int		min_element(t_triangle *tri)
 {
-	int	i;
-	int	j;
+	int min;
+	int min_idx;
+	int i;
 
 	i = -1;
-	while (++i < size)
+	min = INTMAX;
+	min_idx = -1;
+	while (++i < 3)
 	{
-		j = -1;
-		while (++j < size)
+		if (tri->vtx_size[i] < 1) continue;
+		if (min > tri->vertex[i])
 		{
-			if (arr[i] > arr[j])
-				break;
-		}
-		if (j == size)
-		{
-			arr[i] = INTMAX;
-			return (i+1);
+			min = tri->vertex[i];
+			min_idx = i;
 		}
 	}
-	return (0);
+	if (min_idx > -1)
+		tri->vtx_size[min_idx]--;
+	return (min_idx+1);
 }
 
 void	merge_tri_A2B(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
@@ -93,13 +92,12 @@ void	merge_tri_B2A(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 	}
 }
 
-void	a2b(t_cmd *cmd, t_stack *a, t_stack *b)
+void	a2b(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 {
-	int	i;
-	int	one_third;
-	int sequence;
-	int tri[3];
-	int step;
+	int			i;
+	int			j;
+	int			one_third;
+	t_triangle	tri;
 
 	// push quater func
 	one_third = a->size / 3;
@@ -108,42 +106,41 @@ void	a2b(t_cmd *cmd, t_stack *a, t_stack *b)
 		pb(cmd, a, b);
 	ft_printf("after pb one third\n");
 	print(a, b);
-	step = 0;
-	while (a->size > 0)
+
+	i = 0;
+	while (i++ < one_third)
 	{
-		step++;
-		sequence = 0;
-		// init rect func
-		tri[0] = a->top->item;
-		tri[1] = a->bottom->item;
-		tri[2] = b->bottom->item;
-		ft_printf("%d, %d, %d\n", tri[0], tri[1], tri[2]);
-		do
+		tri.vtx_size[0] = tri_size / 3;
+		tri.vtx_size[1] = tri_size / 3;
+		tri.vtx_size[2] = tri_size / 3;
+		j = 0;
+		if (a->size >= one_third * 2)
+			tri.order = 0;
+		else
+			tri.order = 1;
+		while (j++ < tri_size)
 		{
-			sequence *= 10;
-			if (one_third-- > 0)
-				sequence += min_element(tri, 4);
+			if (tri.vtx_size[0] > 0)
+				tri.vertex[0] = B1;
+			if (tri.vtx_size[1] > 0)
+				tri.vertex[1] = B2;
+			if (tri.vtx_size[2] > 0)
+				tri.vertex[2] = B3;
+			if (tri.order == 0)
+				merge_tri_A2B(cmd, a, b, max_element(&tri));
 			else
-				sequence += max_element(tri, 3);
-		} while (sequence < 100);
-//		ft_printf("%d\n", sequence);
-		while (sequence > 0)
-		{
-			merge_tri_A2B(cmd, a, b, sequence % 10);
-			sequence /= 10;
-		}
+				merge_tri_A2B(cmd, a, b, min_element(&tri));
+		} 	
 		ft_printf("after one triangle\n");
 		print(a, b);
 	}
 }
 
-void	b2a(t_cmd *cmd, t_stack *a, t_stack *b)
+void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 {
-	int	i;
-	int	one_third;
-	int sequence;
-	int tri[3];
-	int step;
+	int			i;
+	int			one_third;
+	t_triangle	tri;
 
 	// push quater func
 	one_third = b->size / 3;
@@ -152,53 +149,94 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b)
 		pa(cmd, a, b);
 	ft_printf("after pa one third\n");
 	print(a, b);
-	step = 0;
+
 	while (b->size > 0)
 	{
-		step++;
-		sequence = 0;
-		// init rect func
-		tri[0] = b->top->item;
-		tri[1] = b->bottom->item;
-		tri[2] = a->bottom->item;
-		ft_printf("%d, %d, %d\n", tri[0], tri[1], tri[2]);
-		do
+		tri.vtx_size[0] = tri_size / 3;
+		tri.vtx_size[1] = tri_size / 3;
+		tri.vtx_size[2] = tri_size / 3;
+		i = 0;
+		if (one_third > 0)
+			tri.order = 0;
+		else
+			tri.order = 1;
+		one_third -= tri_size;
+		while (i++ < tri_size)
 		{
-			sequence *= 10;
-//			if (one_third-- > 0)
-				sequence += min_element(tri, 3);
-//			else
-//				sequence += max_element(tri, 3);
-		} while (sequence < 100);
-//		ft_printf("%d\n", sequence);
-		while (sequence > 0)
-		{
-			merge_tri_B2A(cmd, a, b, sequence % 10);
-			sequence /= 10;
-		}
+			if (tri.vtx_size[0] > 0)
+				tri.vertex[0] = A1;
+			if (tri.vtx_size[1] > 0)
+				tri.vertex[1] = A2;
+			if (tri.vtx_size[2] > 0)
+				tri.vertex[2] = A3;
+			if (tri.order == 0)
+				merge_tri_B2A(cmd, a, b, max_element(&tri));
+			else
+				merge_tri_B2A(cmd, a, b, min_element(&tri));
+		} 	
 		ft_printf("after one triangle\n");
 		print(a, b);
 	}
 }
 
-
-int get_totalcmd(t_cmd *cmd)
+void	sort_small(t_cmd *cmd, t_stack *a, t_stack *b)
 {
-	int	cnt;
+	if (a->size == 2)
+		sa(cmd, a, b);
+	else if (a->size == 3)
+	{
+		if (T1 < T2 && T1 < T3)
+			sa(cmd, a, b);
+		if (T1 > T2 && T1 > T3)
+		{
+			if (T2 < T3)
+				ra(cmd, a, b);
+			else
+			{
+				sa(cmd, a, b);
+				rra(cmd, a, b);
+			}
+		}
+		else
+		{
+			if (T2 < T3)
+				sa(cmd, a, b);
+			else
+				rra(cmd, a, b);
+		}
+	}
+}
 
-	cnt = 0;
-	cnt += cmd->pa;
-	cnt += cmd->pb;
-	cnt += cmd->sa;
-	cnt += cmd->sb;
-	cnt += cmd->ss;
-	cnt += cmd->ra;
-	cnt += cmd->rb;
-	cnt += cmd->rr;
-	cnt += cmd->rra;
-	cnt += cmd->rrb;
-	cnt += cmd->rrr;
-	return (cnt);
+
+void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
+{
+	if (a->size <= 5)
+		sort_small(cmd, a, b);
+	else
+	{
+
+	a2b(cmd, a, b, 3);
+//	if (cnt_inverse_order(b))
+	if (b->size < 9)
+	{
+		
+	}
+	else
+		b2a(cmd, a, b, 9);
+
+	}
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	t_node2 *curr;
+
+	curr = cmd->first->next;
+	while (curr)
+	{
+		ft_printf("%s\n", curr->cmd);
+		curr = curr->next;
+	}
 }
 
 int	main(int argc, char *argv[])
@@ -211,9 +249,14 @@ int	main(int argc, char *argv[])
 	check_err(argc, argv, &a);
 	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
 	print(&a, &b);
-	a2b(&cmd, &a, &b);
-	b2a(&cmd, &a, &b);
-	ft_printf("total = %d\n", get_totalcmd(&cmd));
+	sort_stack(&cmd, &a, &b);
+	print_cmd(&cmd);
+	ft_printf("inv_cnt = %d\nafter sort\n", cnt_inverse_order(&a));
+	print(&a, &b);
+
+	// compress_cmd
+	// print_cmd
+	// exit_program (free, error handling)
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 16:50:02 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/29 21:28:38 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,22 @@
 # include "libft/libft.h"
 
 # define INTMAX 2147483647
-# define INTOVER 10000000000
 # define INTMIN -2147483648
+# define INTOVER 10000000000
+
+# define B1 a->top->item
+# define B2 a->bottom->item
+# define B3 b->bottom->item
+
+# define A1 b->top->item
+# define A2 b->bottom->item
+# define A3 a->bottom->item
+
+# define T1 a->top->item
+# define T2 a->top->prev->item
+# define T3 a->top->prev->prev->item
+
+// do cmd -> 문자열, 스플릿, 하나씩 실행 ex "sa ra pb" -> 세개 실행
 
 typedef struct s_node {
 	int				item;
@@ -27,11 +41,24 @@ typedef struct s_node {
 	struct s_node	*prev;
 }	t_node;
 
+typedef struct s_node2 {
+	char cmd[4];
+	struct s_node2 *prev;
+	struct s_node2 *next;
+}	t_node2;
+
 typedef struct s_stack {
 	t_node	*top;
 	t_node	*bottom;
 	int		size;
 }	t_stack;
+
+// order 1 is increasing, 0 is decreasing
+typedef struct s_triangle {
+	int	vertex[3];
+	int vtx_size[3];
+	int order;
+}	t_triangle;
 
 typedef struct s_bst {
 	long long		item;
@@ -40,17 +67,8 @@ typedef struct s_bst {
 }	t_bst;
 
 typedef struct s_cmd {
-	int	pa;
-	int	pb;
-	int	sa;
-	int	sb;
-	int	ss;
-	int	ra;
-	int	rb;
-	int	rr;
-	int	rra;
-	int	rrb;
-	int	rrr;
+	t_node2 *first;
+	t_node2 *last;
 }	t_cmd;
 
 

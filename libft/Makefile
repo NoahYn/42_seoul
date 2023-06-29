@@ -10,7 +10,9 @@ SRCS = \
 	ft_itoa.c ft_utoa.c ft_htoa.c ft_strmapi.c ft_striteri.c \
 	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 	\
-	ft_printf.c ft_putstr.c ft_putnbr.c ft_putaddr.c ft_puthex.c 
+	ft_printf.c ft_putstr.c ft_putnbr.c ft_putaddr.c ft_puthex.c \
+	\
+	ft_pow.c
 
 BONUS = \
 	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c ft_lstadd_back_bonus.c \

@@ -2,23 +2,20 @@
 
 void	init(t_cmd *cmd, t_stack *a, t_stack *b)
 {
+	t_node2	*dummy;
+
 	a->size = 0;
 	a->top = NULL;
 	a->bottom = NULL;
 	b->size = 0;
 	b->top = NULL;
 	b->bottom = NULL;
-	cmd->pa = 0;
-	cmd->pb = 0;
-	cmd->sa = 0;
-	cmd->sb = 0;
-	cmd->ss = 0;
-	cmd->ra = 0;
-	cmd->rb = 0;
-	cmd->rr = 0;
-	cmd->rra = 0;
-	cmd->rrb = 0;
-	cmd->rrr = 0;
+	dummy = (t_node2 *)malloc(sizeof(t_node2));
+	dummy->next = NULL;
+	dummy->prev = NULL;
+	ft_strlcpy(dummy->cmd, "", 1);
+	cmd->first = dummy;
+	cmd->last = dummy;
 }
 
 long long	ft_atoll(const char *str)
