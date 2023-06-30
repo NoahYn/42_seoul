@@ -35,6 +35,18 @@ int		max_element(t_triangle *tri)
 	return (max_idx+1);
 }
 
+int  max_element_arr(int *arr)
+{
+  int max;
+int max_idx;
+int i;
+
+i = -1;
+max = INTMIN;
+max_idx = -1;
+
+}
+
 int		min_element(t_triangle *tri)
 {
 	int min;
