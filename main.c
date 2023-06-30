@@ -176,14 +176,14 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 	}
 }
 
-void	merge_aaa(t_cmd *cmd, t_stack *a, t_stack *b, int size, int order)
+void	make_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, int size, int order)
 {
 	if (size == 2)
 	{
-		if ((AT > AB && order == INC) || (AT < AB) && order == DEC)
-			do_cmds("pb ra pb", cmd, a, b);
+		if ((AT > AS && order == INC) || (AT < AS) && order == DEC)
+			do_cmds("pb pb", cmd, a, b);
 		else
-			do_cmds("ra pb pb", cmd, a, b);
+			do_cmds("sa pb pb", cmd, a, b);
 	}
 	else if (size == 3)
 	{
@@ -199,7 +199,7 @@ void	merge_aaa(t_cmd *cmd, t_stack *a, t_stack *b, int size, int order)
 	}
 }
 
-void	unit_triangle_a2b(t_cmd *cmd, t_stack *a, t_stack *b)
+void	init_triangle(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	int chunk[3];
 	
@@ -228,7 +228,7 @@ void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 		sort_small_a(cmd, a, b);
 	else if (a->size < 12)
 	{
-		unit_triangle_a2b(cmd, a, b);
+		init_triangle(cmd, a, b);
 		merge(cmd, a, b);
 	}
 	else
