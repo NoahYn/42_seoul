@@ -33,22 +33,22 @@ void	find_min(int min_idx[2], t_stack *stk)
 
 void	sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b)
 {
-	if (T1 < T2 && T1 < T3)
+	if (AT < AS && AT < AB)
 	{
-		if (T2 < T3)
+		if (AS < AB)
 			return;
 		sa(cmd, a, b);
 	}
-	if (T1 > T2 && T1 > T3)
+	if (AT > AS && AT > AB)
 	{
-		if (T2 < T3)
+		if (AS < AB)
 			ra(cmd, a, b);
 		else
 			do_cmds("sa rra", cmd, a, b);
 	}
 	else
 	{
-		if (T2 < T3)
+		if (AS < AB)
 			sa(cmd, a, b);
 		else
 			rra(cmd, a, b);
@@ -63,9 +63,9 @@ void	pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num)
 	if (num == 2)
 	{
 		if (min_idx[0] == 1 || min_idx[1] == 1) ;
-		else if (min_idx[0] == 2 || min_idx[2] == 2)
+		else if (min_idx[0] == 2 || min_idx[1] == 2)
 			ra(cmd, a, b);
-		else if (min_idx[0] == 5 || min_idx[2] == 5)
+		else if (min_idx[0] == 5 || min_idx[1] == 5)
 			rra(cmd, a, b);
 		else
 			cmd_multiply("ra", 2, cmd, a, b);

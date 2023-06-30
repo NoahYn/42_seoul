@@ -9,7 +9,9 @@ void	pa(t_cmd *cmd, t_stack *a, t_stack *b)
 	push(a, pop(b));
 	if (ft_strncmp(cmd->last->cmd, "pb", 3) == 0)
 	{
-		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		cmd->last = cmd->last->prev;
+		free(cmd->last->next);
+		cmd->last->next = NULL;
 		return ;
 	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
@@ -17,7 +19,7 @@ void	pa(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "pa", 4);
-	ft_printf("%s\n", newcmd->cmd);
+//	ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;	
@@ -32,7 +34,9 @@ void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
 	push(b, pop(a));
 	if (ft_strncmp(cmd->last->cmd, "pa", 3) == 0)
 	{
-		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		cmd->last = cmd->last->prev;
+		free(cmd->last->next);
+		cmd->last->next = NULL;
 		return ;
 	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
@@ -40,7 +44,7 @@ void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "pb", 4);
-	ft_printf("%s\n", newcmd->cmd);
+//	ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -56,7 +60,9 @@ void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 	swap(a);
 	if (ft_strncmp(cmd->last->cmd, "sa", 3) == 0)
 	{
-		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		cmd->last = cmd->last->prev;
+		free(cmd->last->next);
+		cmd->last->next = NULL;
 		return ;
 	}
 	if (ft_strncmp(cmd->last->cmd, "sb", 3) == 0)
@@ -69,7 +75,7 @@ void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "sa", 4);
-	ft_printf("%s\n", newcmd->cmd);
+//	ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -85,7 +91,9 @@ void	sb(t_cmd *cmd, t_stack *a, t_stack *b)
 	swap(b);
 	if (ft_strncmp(cmd->last->cmd, "sb", 3) == 0)
 	{
-		ft_strlcpy(cmd->last->cmd, "\0", 4);
+		cmd->last = cmd->last->prev;
+		free(cmd->last->next);
+		cmd->last->next = NULL;
 		return ;
 	}
 	if (ft_strncmp(cmd->last->cmd, "sa", 3) == 0)
@@ -98,7 +106,7 @@ void	sb(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "sb", 4);
-	ft_printf("%s\n", newcmd->cmd);
+//	ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;

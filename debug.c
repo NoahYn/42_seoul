@@ -26,6 +26,7 @@ void	print_cmd(t_cmd *cmd)
 	curr = cmd->first->next;
 	while (curr)
 	{
+		
 		ft_printf("%s\n", curr->cmd);
 		curr = curr->next;
 	}

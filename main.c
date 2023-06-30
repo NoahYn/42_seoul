@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/30 03:08:18 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:40:13 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		min_element(t_triangle *tri)
 	return (min_idx+1);
 }
 
-void	merge_tri_A2B(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
+void	merge_aab(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 {
 	if (seq == 1)
 	{
@@ -75,7 +75,7 @@ void	merge_tri_A2B(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 	}
 }
 
-void	merge_tri_B2A(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
+void	merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 {
 	if (seq == 1)
 	{
@@ -102,8 +102,8 @@ void	a2b(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 	// push quater func
 	one_third = a->size / 3;
 	cmd_multiply("pb", one_third, cmd, a, b);
-	ft_printf("after pb one third\n");
-	print_stack(a, b);
+//	ft_printf("after pb one third\n");
+//	print_stack(a, b);
 
 	i = 0;
 	while (i++ < one_third)
@@ -119,18 +119,18 @@ void	a2b(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 		while (j++ < tri_size)
 		{
 			if (tri.vtx_size[0] > 0)
-				tri.vertex[0] = B1;
+				tri.vertex[0] = BT;
 			if (tri.vtx_size[1] > 0)
-				tri.vertex[1] = B2;
+				tri.vertex[1] = BS;
 			if (tri.vtx_size[2] > 0)
-				tri.vertex[2] = B3;
+				tri.vertex[2] = BB;
 			if (tri.order == 0)
-				merge_tri_A2B(cmd, a, b, max_element(&tri));
+				merge_aab(cmd, a, b, max_element(&tri));
 			else
-				merge_tri_A2B(cmd, a, b, min_element(&tri));
+				merge_bba(cmd, a, b, min_element(&tri));
 		} 	
-		ft_printf("after one triangle\n");
-		print_stack(a, b);
+//		ft_printf("after one triangle\n");
+//		print_stack(a, b);
 	}
 }
 
@@ -144,8 +144,8 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 	one_third = b->size / 3;
 	i = 0;
 	cmd_multiply("pa", one_third, cmd, a, b);
-	ft_printf("after pa one third\n");
-	print_stack(a, b);
+//	ft_printf("after pa one third\n");
+//	print_stack(a, b);
 
 	while (b->size > 0)
 	{
@@ -161,49 +161,78 @@ void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
 		while (i++ < tri_size)
 		{
 			if (tri.vtx_size[0] > 0)
-				tri.vertex[0] = A1;
+				tri.vertex[0] = AT;
 			if (tri.vtx_size[1] > 0)
-				tri.vertex[1] = A2;
+				tri.vertex[1] = AS;
 			if (tri.vtx_size[2] > 0)
-				tri.vertex[2] = A3;
+				tri.vertex[2] = AB;
 			if (tri.order == 0)
-				merge_tri_B2A(cmd, a, b, max_element(&tri));
+				merge_bba(cmd, a, b, max_element(&tri));
 			else
-				merge_tri_B2A(cmd, a, b, min_element(&tri));
+				merge_aab(cmd, a, b, min_element(&tri));
 		} 	
-		ft_printf("after one triangle\n");
-		print_stack(a, b);
+//		ft_printf("after one triangle\n");
+//		print_stack(a, b);
 	}
 }
 
+void	merge_aaa(t_cmd *cmd, t_stack *a, t_stack *b, int size, int order)
+{
+	if (size == 2)
+	{
+		if ((AT > AB && order == INC) || (AT < AB) && order == DEC)
+			do_cmds("pb ra pb", cmd, a, b);
+		else
+			do_cmds("ra pb pb", cmd, a, b);
+	}
+	else if (size == 3)
+	{
+		if (order == INC)
+		{
+			if (AT > AS && AT > AB)
+				
+		}
+		else
+		{
+
+		}
+	}
+}
 
 void	unit_triangle_a2b(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	int chunk[3];
 	
-	if (a->size < 9)
+	if (a->size < 12)
 	{
-		chunk[0] = 3;
+		if (a->size < 9)
+			chunk[0] = 3;
+		else
+			chunk[0] = a->size - 6;
 		chunk[1] = (a->size - chunk[0]) / 2;
 		chunk[2] = a->size - chunk[0] - chunk[1];
 	}
-	else if (a->size < 12)
-	{
-		chunk[0] = a->size - 6;
-		chunk[1] = 3;
-		chunk[2] = 3;
-	}
+	merge_aaa(cmd, a, b, chunk[1]);
+	merge_aaa(cmd, a, b, chunk[2]);
+	sort_small_a(cmd, a, b);
+}
 
-	sort_small_a(cmd, a, b); // chunk 0
+void	merge(t_cmd *cmd, t_stack *a, t_stack *b)
+{
+
 }
 
 void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	if (a->size <= 5)
 		sort_small_a(cmd, a, b);
-	else
+	else if (a->size < 12)
 	{
 		unit_triangle_a2b(cmd, a, b);
+		merge(cmd, a, b);
+	}
+	else
+	{
 
 	a2b(cmd, a, b, 3);
 //	if (cnt_inverse_order(b))
@@ -227,11 +256,11 @@ int	main(int argc, char *argv[])
 
 	init(&cmd, &a, &b);
 	check_err(argc, argv, &a);
-	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
-	print_stack(&a, &b);
+//	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
+//	print_stack(&a, &b);
 	sort_stack(&cmd, &a, &b);
-	ft_printf("inv_cnt = %d\nafter sort\n", cnt_inverse_order(&a));
-	print_stack(&a, &b);
+//	ft_printf("inv_cnt = %d\nafter sort\n", cnt_inverse_order(&a));
+//	print_stack(&a, &b);
 	print_cmd(&cmd);
 
 	// compress_cmd

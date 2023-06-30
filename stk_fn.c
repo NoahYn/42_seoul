@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:11:06 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 21:15:46 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:33:12 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	swap(t_stack *stk)
 	}
 }
 
+// down(bottom to top)
 void	rotate(t_stack *stk)
 {
 	if (stk->size == 0) 
@@ -69,6 +70,7 @@ void	rotate(t_stack *stk)
 	stk->bottom->prev = 0;
 }
 
+// up(top to bottom)
 void	reverse_rotate(t_stack *stk)
 {
 	if (stk->size == 0) 
