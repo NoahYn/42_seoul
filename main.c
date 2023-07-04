@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/04 16:51:52 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/04 17:07:54 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,22 +200,11 @@ void	make_triunit_a2b(t_cmd *cmd, t_stack *a, t_stack *b, int size, int order)
 }
 
 // 재귀적으로 chunk size 자료구조에 저장 
-void	init_triangle(t_cmd *cmd, t_stack *a, t_stack *b)
+void	init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 {
-	int chunk[3];
-	
-	if (a->size < 12)
-	{
-		if (a->size < 9)
-			chunk[0] = 3;
-		else
-			chunk[0] = a->size - 6;
-		chunk[1] = (a->size - chunk[0]) / 2;
-		chunk[2] = a->size - chunk[0] - chunk[1];
-	}
-//	make_triunit_a2b(cmd, a, b, chunk[1]);
-//	make_triunit_a2b(cmd, a, b, chunk[2]);
-	sort_small_a(cmd, a, b);
+////	make_triunit_a2b(cmd, a, b, chunk[1]);
+////	make_triunit_a2b(cmd, a, b, chunk[2]);
+//	sort_small_a(cmd, a, b);
 }
 
 void	merge(t_cmd *cmd, t_stack *a, t_stack *b)
@@ -228,30 +217,35 @@ void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 	t_triangle	tri;
 	int			num;
 	int			i;
+	t_node3		*curr;
 
 	tri.depth = 1;
 	while (ft_pow(3, tri.depth-1) * 18 < a->size)
-		tri->depth++;
+		tri.depth++;
 	tri.size = ft_pow(3, tri.depth);
 	num = a->size;
 	i = 0;
-	ft_printf("size = %d, depth = %d", tri.size, tri.depth);
+	ft_printf("size = %d, depth = %d, ", tri.size, tri.depth);
+	tri.tri = (t_node3 *)malloc(sizeof(t_node3));
+	curr = tri.tri;
 	while (num > 0)
 	{
 		if (i%3 == 0)
 		{
-			tri->tri = 
+			curr->next = (t_node3 *)malloc(sizeof(t_node3));
+			curr = curr->next;
+			ft_printf("\n");
 		}
-		tri->tri->chunk[i % 3] = num/(tri.size-i);
+		curr->chunk[i % 3] = num/(tri.size-i);
+		ft_printf("%d ", curr->chunk[i%3]);
 		num -= num/(tri.size-i++);
-		ft_printf("%d ", tri->tri->chunk[i%3]);
 	}
 	if (a->size <= 5)
 		sort_small_a(cmd, a, b);
 	else if (tri.depth % 2 == 1)
-		init_triangle_b(cmd, a, b);
-	else
-		init_triangle_a(cmd, a, b);
+		init_triangle_b(cmd, a, b, &tri);
+	//else
+	//	init_triangle_a(cmd, a, b);
 
 //	a2b(cmd, a, b, 3);
 //	if (cnt_inverse_order(b))
