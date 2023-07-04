@@ -22,12 +22,15 @@ void print_stack(t_stack *a, t_stack *b)
 void	print_cmd(t_cmd *cmd)
 {
 	t_node2 *curr;
+	int num;
 
 	curr = cmd->first->next;
+	num = 0;
 	while (curr)
 	{
-		
+		num++;
 		ft_printf("%s\n", curr->cmd);
 		curr = curr->next;
 	}
+	ft_printf("cnt = %d\n", num);
 }

@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/04 17:07:54 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/04 22:22:03 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		max_element(int num, int *arr, int *size)
 		}
 	}
 	size[max_idx]--;
+	if (max_idx >= 3 && size[max_idx-3] == 0)
+		return (max_idx-2);
 	return (max_idx+1);
 }
 
@@ -54,47 +56,46 @@ int		min_element(int num, int *arr, int *size)
 		}
 	}
 	size[min_idx]--;
+	if (min_idx >= 3 && size[min_idx-3] == 0)
+		return (min_idx-2);
 	return (min_idx+1);
 }
 void	merge_aab(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 {
 	if (seq == 1)
-	{
 		pb(cmd, a, b);
-	}
 	else if (seq == 2)
-	{
-		rra(cmd, a, b);
-		pb(cmd, a, b);
-	}
+		do_cmds("rra pb", cmd, a, b);
 	else if (seq == 3)
-	{
 		rrb(cmd, a, b);
-	}
+	else if (seq == 4)
+		do_cmds("sa pb", cmd, a, b);
+	else if (seq == 5)
+		do_cmds("rra rra pb ra", cmd, a, b);
+	else if (seq == 6)
+		do_cmds("rrb rrb sb rb", cmd, a, b);
 }
 
 void	merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 {
 	if (seq == 1)
-	{
 		pa(cmd, a, b);
-	}
 	else if (seq == 2)
-	{
-		rrb(cmd, a, b);
-		pa(cmd, a, b);
-	}
+		do_cmds("rrb pa", cmd, a, b);
 	else if (seq == 3)
-	{
 		rra(cmd, a, b);
-	}
+	else if (seq == 4)
+		do_cmds("sb pa", cmd, a, b);
+	else if (seq == 5)
+		do_cmds("rrb rrb pa rb", cmd, a, b);
+	else if (seq == 6)
+		do_cmds("rra rra sa ra", cmd, a, b);
 }
 
-//void	a2b(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
+//void	merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 //{
 //	int			i;
 //	int			j;
-//	int			one_third;
 //	int			arr[6];
 //	int			size[6];
 //	int			order;
@@ -134,7 +135,7 @@ void	merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 //	}
 //}
 
-//void	b2a(t_cmd *cmd, t_stack *a, t_stack *b, int tri_size)
+//void	merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 //{
 //	int			i;
 //	int			one_third;
@@ -171,51 +172,91 @@ void	merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 //			else
 //				merge_aab(cmd, a, b, min_element(&tri));
 //		} 	
-////		ft_printf("after one triangle\n");
-////		print_stack(a, b);
 //	}
 //}
-
-void	make_triunit_a2b(t_cmd *cmd, t_stack *a, t_stack *b, int size, int order)
-{
-	if (size == 2)
-	{
-		if ((AT > AS && order == INC) || (AT < AS) && order == DEC)
-			do_cmds("pb pb", cmd, a, b);
-		else
-			do_cmds("sa pb pb", cmd, a, b);
-	}
-	else if (size == 3)
-	{
-		if (order == INC)
-		{
-			if (AT > AS && AT > AB)
-			{}	
-		}
-		else
-		{
-
-		}
-	}
-}
 
 // 재귀적으로 chunk size 자료구조에 저장 
 void	init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 {
-////	make_triunit_a2b(cmd, a, b, chunk[1]);
-////	make_triunit_a2b(cmd, a, b, chunk[2]);
-//	sort_small_a(cmd, a, b);
+	t_node3		*curr;
+	int			vtx[6];
+	int			size[6];
+	int			i;
+	int			j;
+	int			k;
+
+	curr = tri->tri->next;
+	while (curr)
+	{
+		i = -1;
+		while (++i < 3)
+		{
+			k = -1;
+			while (++k < 6)
+				size[k] = 1;
+			j = 0;
+			while (j++ < curr->chunk[i])
+			{
+				if (a->size > 0)
+				{
+					vtx[0] = AT;
+					vtx[1] = AB;
+					vtx[3] = AT;
+					vtx[4] = AB;
+				}
+				else
+				{
+					size[0] = 0;
+					size[1] = 0;
+					size[3] = 0;
+					size[4] = 0;
+				}
+				if (b->size > 0)
+				{
+					vtx[2] = BB;
+					vtx[5] = BB;
+				}
+				else
+				{
+					size[2] = 0;
+					size[5] = 0;
+				}
+				if (a->size > 1)
+				{
+					if (size[0] == 1)
+						vtx[3] = AS;
+					if (size[1] == 1)
+						vtx[4] = AB2;
+				}
+				if (b->size > 1 && size[2] == 1)
+					vtx[5] = BB2;
+
+				int m;
+				if(curr->order[i] == 0)
+				{
+					m = max_element(curr->chunk[i], vtx, size);
+				}
+				else if (curr->order[i] == 1)
+				{
+					m = min_element(curr->chunk[i], vtx, size);
+				}
+				merge_aab(cmd, a, b, m);
+				ft_printf("%d ", m);
+			}
+			ft_printf("order = %d\n", curr->order[i]);
+			print_stack(a, b);
+		}
+		curr = curr->next;
+	}
+	cmd_multiply("pa", tri->push_cnt, cmd, a, b);
 }
 
-void	merge(t_cmd *cmd, t_stack *a, t_stack *b)
-{
-
-}
 
 void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_triangle	tri;
 	int			num;
+	int			size;
 	int			i;
 	t_node3		*curr;
 
@@ -224,34 +265,54 @@ void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 		tri.depth++;
 	tri.size = ft_pow(3, tri.depth);
 	num = a->size;
-	i = 0;
-	ft_printf("size = %d, depth = %d, ", tri.size, tri.depth);
+	size = a->size;
+	i = -1;
 	tri.tri = (t_node3 *)malloc(sizeof(t_node3));
 	curr = tri.tri;
+	ft_printf("depth = %d\n", tri.depth);
+	tri.push_cnt = 0;
 	while (num > 0)
 	{
-		if (i%3 == 0)
+		if (++i%3 == 0)
 		{
 			curr->next = (t_node3 *)malloc(sizeof(t_node3));
+			curr->level = 1;
 			curr = curr->next;
-			ft_printf("\n");
 		}
+
 		curr->chunk[i % 3] = num/(tri.size-i);
-		ft_printf("%d ", curr->chunk[i%3]);
-		num -= num/(tri.size-i++);
+		num -= num/(tri.size-i);
+		if (num >= size/3*2 || num <= size/3)
+			curr->order[i%3] = 0;
+		else
+			curr->order[i%3] = 1;
+		if (num <= size/3)
+			tri.push_cnt += curr->chunk[i%3];
+		if (curr->chunk[i % 3] > 2 && curr->order[i%3] < 2)
+		{
+			if (tri.depth % 2 == 1)
+				cmd_multiply("pb", curr->chunk[i%3]/3, cmd, a, b);
+			else
+				cmd_multiply("pb", curr->chunk[i%3]-curr->chunk[i%3]/3, cmd, a, b);
+		}
+		ft_printf("chunk = %d num = %d size = %d", curr->chunk[i%3], num, a->size);
+		ft_printf("order = %d\n", curr->order[i%3]);
 	}
+	print_stack(a, b);
 	if (a->size <= 5)
 		sort_small_a(cmd, a, b);
-	else if (tri.depth % 2 == 1)
+	else if (tri.depth-- % 2 == 1)
 		init_triangle_b(cmd, a, b, &tri);
 	//else
 	//	init_triangle_a(cmd, a, b);
 
-//	a2b(cmd, a, b, 3);
-//	if (cnt_inverse_order(b))
-//	else
-//		b2a(cmd, a, b, 9);
-
+	//while (tri.depth--)
+	//{
+	//	if (tri.depth % 2 == 1)
+	//		merge_a2b(cmd, a, b, &tri);
+	//	else
+	//		merge_b2a(cmd, a, b. &tri);
+	//}
 }
 
 
@@ -264,15 +325,13 @@ int	main(int argc, char *argv[])
 
 	init(&cmd, &a, &b);
 	check_err(argc, argv, &a);
-//	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
-//	print_stack(&a, &b);
+	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
+	print_stack(&a, &b);
 	sort_stack(&cmd, &a, &b);
 //	ft_printf("inv_cnt = %d\nafter sort\n", cnt_inverse_order(&a));
-//	print_stack(&a, &b);
+	print_stack(&a, &b);
 	print_cmd(&cmd);
 
-	// compress_cmd
-	// print_cmd
 	// exit_program (free, error handling)
 }
 

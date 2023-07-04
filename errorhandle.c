@@ -71,6 +71,8 @@ int cnt_inverse_order(t_stack *stk)
 	int		cnt;
 	t_node	*curr;
 
+	if (stk->size == 0)
+		return (0);
 	cnt = 0;
 	curr = stk->top;
 	while (curr->prev)
