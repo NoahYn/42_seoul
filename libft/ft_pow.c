@@ -5,6 +5,7 @@ int ft_pow(int a, int b)
 	int	c;
 
 	c = 1;
+	if (b == 0)	return (1);
 	while (b > 1)
 	{
 		if (b % 2 == 1)

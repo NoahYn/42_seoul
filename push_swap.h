@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/30 13:28:57 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/04 16:51:51 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@
 # define AT	a->top->item
 # define AS	a->top->prev->item
 # define AB	a->bottom->item
+# define AB2 a->bottom->next->item
 
 # define BT b->top->item
 # define BS b->top->prev->item
 # define BB b->bottom->item
-
-// do cmd -> 문자열, 스플릿, 하나씩 실행 ex "sa ra pb" -> 세개 실행
+# define BB2 b->bottom->next->item
 
 typedef struct s_node {
 	int				item;
@@ -40,30 +40,35 @@ typedef struct s_node {
 	struct s_node	*prev;
 }	t_node;
 // node for stack
-
+typedef struct s_stack {
+	t_node	*top;
+	t_node	*bottom;
+	int		size;
+}	t_stack;
 typedef struct s_node2 {
 	char cmd[4];
 	struct s_node2 *prev;
 	struct s_node2 *next;
 }	t_node2;
 // node for cmd set
+typedef struct s_cmd {
+	t_node2 *first;
+	t_node2 *last;
+}	t_cmd;
 
 typedef struct s_node3 {
-	int chunk[3];
+	int				order;
+	int				chunk[3];
 	struct s_node3 *next;
 }	t_node3;
 
-typedef struct s_stack {
-	t_node	*top;
-	t_node	*bottom;
-	int		size;
-}	t_stack;
-
 typedef struct s_triangle {
-	int	vertex[3];
-	int vtx_size[3];
-	int order;
+	t_node3	*tri;
+	int		depth;
+	int		size;
 }	t_triangle;
+
+
 
 typedef struct s_bst {
 	long long		item;
@@ -71,10 +76,6 @@ typedef struct s_bst {
 	struct s_bst	*right;
 }	t_bst;
 
-typedef struct s_cmd {
-	t_node2 *first;
-	t_node2 *last;
-}	t_cmd;
 
 
 // errorhandle.c
