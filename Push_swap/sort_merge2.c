@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_merge2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkyeki <minkyeki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 20:47:56 by minkyeki          #+#    #+#             */
-/*   Updated: 2022/06/16 22:36:41 by minkyeki         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:06 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	merge_3tri_each(t_triangle *t1, t_triangle *t2, t_triangle *t3, \
 {
 	t_merge_info	info;
 
-	info.t[0] = t1->size;
-	info.t[1] = t2->size;
-	info.t[2] = t3->size;
+	info.t[0] = t1->num;
+	info.t[1] = t2->num;
+	info.t[2] = t3->num;
 	set_merge_info(t3, &info, data);
 	while (info.t[0] + info.t[1] + info.t[2] > 0)
 	{	

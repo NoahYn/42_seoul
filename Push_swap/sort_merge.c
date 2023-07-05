@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_merge.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkyeki <minkyeki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 15:47:47 by minkyeki          #+#    #+#             */
-/*   Updated: 2022/06/16 21:06:17 by minkyeki         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:07 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	merge(t_push_swap *data)
 		t[2] = data->tri_map->data[data->tri_map->size - 1 - i];
 		merge_3tri_each(t[0], t[1], t[2], data);
 		t[0]->a_or_b *= -1;
-		t[0]->size = t[0]->size + t[1]->size + t[2]->size;
+		t[0]->num = t[0]->num + t[1]->num + t[2]->num;
 	}
 	i = -1;
 	map_size_prev = data->tri_map->size;
@@ -45,7 +45,7 @@ void	push_top_tri_to_opposite(t_triangle *t3, t_push_swap *data)
 	int	i;
 
 	i = 0;
-	while (i < t3->size)
+	while (i < t3->num)
 	{
 		if (t3->a_or_b == B)
 			push(data->stack_a, data->stack_b, data->cmd);

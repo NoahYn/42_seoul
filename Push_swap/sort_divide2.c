@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_divide2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkyeki <minkyeki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 20:29:44 by minkyeki          #+#    #+#             */
-/*   Updated: 2022/06/18 23:41:57 by minkyeki         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:07 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_triangle	*create_triangle(int _inc_or_dec, int _size, int _a_or_b)
 	tmp = ft_calloc(1, sizeof(*tmp));
 	if (tmp != NULL)
 	{
-		tmp->size = _size;
+		tmp->num = _size;
 		tmp->inc_or_dec = _inc_or_dec;
 		tmp->a_or_b = _a_or_b;
 	}
@@ -80,10 +80,10 @@ void	push_2_tri(t_triangle *tri, t_push_swap *data)
 
 void	push_as_triangle(t_triangle *tri, t_push_swap *data)
 {
-	if (tri->size > 2)
-		push_tri(tri->size, tri, data);
-	else if (tri->size == 2)
+	if (tri->num > 2)
+		push_tri(tri->num, tri, data);
+	else if (tri->num == 2)
 		push_2_tri(tri, data);
-	else if (tri->size == 1)
+	else if (tri->num == 1)
 		push(data->stack_b, data->stack_a, data->cmd);
 }

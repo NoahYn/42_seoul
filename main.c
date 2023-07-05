@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/04 22:22:03 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/05 17:02:17 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,227 +92,285 @@ void	merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
 		do_cmds("rra rra sa ra", cmd, a, b);
 }
 
-//void	merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
-//{
-//	int			i;
-//	int			j;
-//	int			arr[6];
-//	int			size[6];
-//	int			order;
+void	merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+{
+	int		i;
+	int		arr[3];
+	int		size[3];
 
-//	// push quater func
-//	one_third = a->size / 3;
-//	cmd_multiply("pb", one_third, cmd, a, b);
-////	ft_printf("after pb one third\n");
-////	print_stack(a, b);
+	cmd_multiply("pb", tri->push_cnt, cmd, a, b);
+	tri->push_cnt = 0;
+	tri->num /= 3;
+//	print_stack(a, b);
 
-//	i = 0;
-//	while (i++ < one_third)
-//	{
-//		size[0] = tri_size / 3;
-//		size[1] = tri_size / 3;
-//		size[2] = tri_size / 3;
-//		j = 0;
-//		if (a->size >= one_third * 2)
-//			tri.order = 0;
-//		else
-//			tri.order = 1;
-//		while (j++ < tri_size)
-//		{
-//			if (tri.vtx_size[0] > 0)
-//				tri.vertex[0] = BT;
-//			if (tri.vtx_size[1] > 0)
-//				tri.vertex[1] = BS;
-//			if (tri.vtx_size[2] > 0)
-//				tri.vertex[2] = BB;
-//			if (tri.order == 0)
-//				merge_aab(cmd, a, b, max_element(&tri));
-//			else
-//				merge_bba(cmd, a, b, min_element(&tri));
-//		} 	
-////		ft_printf("after one triangle\n");
-////		print_stack(a, b);
-//	}
-//}
+	i = -1;
+	while (++i < tri->num)
+	{
+		size[0] = tri->chunk[i];
+		size[1] = tri->chunk[i+tri->num];
+		size[2] = tri->chunk[tri->num*3 -1 -i];
+		
+		tri->chunk[i] = size[0] + size[1] + size[2];
+		if (i >= tri->num/3*2)
+			tri->push_cnt += tri->chunk[i];
+//		ft_printf("size[0] = %d, size[1] = %d, size[2] = %d\n", size[0], size[1], size[2]);
+		while (size[0] || size[1] || size[2])
+		{
+			if (a->size > 0)	
+			{
+				arr[0] = AT;
+				arr[1] = AB;
+			}
+			if (b->size > 0)
+				arr[2] = BB;
 
-//void	merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
-//{
-//	int			i;
-//	int			one_third;
-//	t_triangle	tri;
+			if (tri->order[i] == DEC)
+				merge_aab(cmd, a, b, min_element(3, arr, size));
+			else
+				merge_aab(cmd, a, b, max_element(3, arr, size));			
+		}
+	//	print_stack(a, b);
+	}
 
-//	// push quater func
-//	one_third = b->size / 3;
-//	i = 0;
-//	cmd_multiply("pa", one_third, cmd, a, b);
-////	ft_printf("after pa one third\n");
-////	print_stack(a, b);
+}
 
-//	while (b->size > 0)
-//	{
-//		tri.vtx_size[0] = tri_size / 3;
-//		tri.vtx_size[1] = tri_size / 3;
-//		tri.vtx_size[2] = tri_size / 3;
-//		i = 0;
-//		if (one_third > 0)
-//			tri.order = 0;
-//		else
-//			tri.order = 1;
-//		one_third -= tri_size;
-//		while (i++ < tri_size)
-//		{
-//			if (tri.vtx_size[0] > 0)
-//				tri.vertex[0] = AT;
-//			if (tri.vtx_size[1] > 0)
-//				tri.vertex[1] = AS;
-//			if (tri.vtx_size[2] > 0)
-//				tri.vertex[2] = AB;
-//			if (tri.order == 0)
-//				merge_bba(cmd, a, b, max_element(&tri));
-//			else
-//				merge_aab(cmd, a, b, min_element(&tri));
-//		} 	
-//	}
-//}
+void	merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+{
+	int		i;
+	int		arr[3];
+	int		size[3];
 
-// 재귀적으로 chunk size 자료구조에 저장 
+	cmd_multiply("pa", tri->push_cnt, cmd, a, b);
+	tri->push_cnt = 0;
+	tri->num /= 3;
+	//print_stack(a, b);
+
+	i = -1;
+	while (++i < tri->num)
+	{
+		size[1] = tri->chunk[i];
+		size[0] = tri->chunk[tri->num +i];
+		size[2] = tri->chunk[tri->num*3 -1 -i];
+
+		tri->chunk[i] = size[0] + size[1] + size[2];
+		if (i >= tri->num/3*2)
+			tri->push_cnt += tri->chunk[i];
+		//ft_printf("i = %d, order = %d\n", i, tri->order[i]);
+		//ft_printf("size[0] = %d, size[1] = %d, size[2] = %d\n", size[0], size[1], size[2]);
+		while (size[0] || size[1] || size[2])
+		{
+			if (b->size > 0)	
+			{
+				arr[0] = BT;
+				arr[1] = BB;
+			}
+			if (a->size > 0)
+				arr[2] = AB;
+			if (tri->order[i] == DEC)
+				merge_bba(cmd, a, b, min_element(3, arr, size));
+			else
+				merge_bba(cmd, a, b, max_element(3, arr, size));
+		}
+	//	print_stack(a, b);
+	}
+}
+
 void	init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 {
-	t_node3		*curr;
 	int			vtx[6];
 	int			size[6];
 	int			i;
 	int			j;
-	int			k;
 
-	curr = tri->tri->next;
-	while (curr)
+	i = -1;
+	while (++i < tri->num)
 	{
-		i = -1;
-		while (++i < 3)
+		j = -1;
+		while (++j < 6)
+			size[j] = 1;
+		j = 0;
+		while (j++ < tri->chunk[i])
 		{
-			k = -1;
-			while (++k < 6)
-				size[k] = 1;
-			j = 0;
-			while (j++ < curr->chunk[i])
+			if (a->size > 0)
 			{
-				if (a->size > 0)
-				{
-					vtx[0] = AT;
-					vtx[1] = AB;
-					vtx[3] = AT;
-					vtx[4] = AB;
-				}
-				else
-				{
-					size[0] = 0;
-					size[1] = 0;
-					size[3] = 0;
-					size[4] = 0;
-				}
-				if (b->size > 0)
-				{
-					vtx[2] = BB;
-					vtx[5] = BB;
-				}
-				else
-				{
-					size[2] = 0;
-					size[5] = 0;
-				}
-				if (a->size > 1)
-				{
-					if (size[0] == 1)
-						vtx[3] = AS;
-					if (size[1] == 1)
-						vtx[4] = AB2;
-				}
-				if (b->size > 1 && size[2] == 1)
-					vtx[5] = BB2;
-
-				int m;
-				if(curr->order[i] == 0)
-				{
-					m = max_element(curr->chunk[i], vtx, size);
-				}
-				else if (curr->order[i] == 1)
-				{
-					m = min_element(curr->chunk[i], vtx, size);
-				}
-				merge_aab(cmd, a, b, m);
-				ft_printf("%d ", m);
+				vtx[0] = AT;
+				vtx[1] = AB;
+				vtx[3] = AT;
+				vtx[4] = AB;
 			}
-			ft_printf("order = %d\n", curr->order[i]);
-			print_stack(a, b);
+			else
+			{
+				size[0] = 0;
+				size[1] = 0;
+				size[3] = 0;
+				size[4] = 0;
+			}
+			if (b->size > 0)
+			{
+				vtx[2] = BB;
+				vtx[5] = BB;
+			}
+			else
+			{
+				size[2] = 0;
+				size[5] = 0;
+			}
+			if (a->size > 1)
+			{
+				if (size[0] == 1)
+					vtx[3] = AS;
+				if (size[1] == 1)
+					vtx[4] = AB2;
+			}
+			if (b->size > 1 && size[2] == 1)
+				vtx[5] = BB2;
+			if (tri->order[i] == DEC)
+				merge_aab(cmd, a, b, min_element(tri->chunk[i], vtx, size));
+			else
+				merge_aab(cmd, a, b, max_element(tri->chunk[i], vtx, size));
 		}
-		curr = curr->next;
+	//	ft_printf("i = %d, dir = %s\n", i, ((tri->order[i] == 1) ? "INC" : "DEC"));
+	//	print_stack(a, b);
 	}
-	cmd_multiply("pa", tri->push_cnt, cmd, a, b);
 }
+
+void	init_triangle_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+{
+	int			vtx[6];
+	int			size[6];
+	int			i;
+	int			j;
+
+	cmd_multiply("pb", a->size, cmd, a, b);
+	i = -1;
+	while (++i < tri->num)
+	{
+		j = -1;
+		while (++j < 6)
+			size[j] = 1;
+		j = 0;
+		while (j++ < tri->chunk[i])
+		{
+			if (b->size > 0)
+			{
+				vtx[0] = BT;
+				vtx[1] = BB;
+				vtx[3] = BT;
+				vtx[4] = BB;
+			}
+			else
+			{
+				size[0] = 0;
+				size[1] = 0;
+				size[3] = 0;
+				size[4] = 0;
+			}
+			if (a->size > 0)
+			{
+				vtx[2] = AB;
+				vtx[5] = AB;
+			}
+			else
+			{
+				size[2] = 0;
+				size[5] = 0;
+			}
+			if (b->size > 1)
+			{
+				if (size[0] == 1)
+					vtx[3] = BS;
+				if (size[1] == 1)
+					vtx[4] = BB2;
+			}
+			if (a->size > 1 && size[2] == 1)
+				vtx[5] = AB2;
+			if (tri->order[i] == DEC)
+				merge_bba(cmd, a, b, min_element(tri->chunk[i], vtx, size));
+			else
+				merge_bba(cmd, a, b, max_element(tri->chunk[i], vtx, size));
+		}
+	}
+}
+
 
 
 void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_triangle	tri;
 	int			num;
-	int			size;
 	int			i;
-	t_node3		*curr;
 
+	if (a->size <= 5)
+	{
+		sort_small_a(cmd, a, b);
+		return ;
+	}
+	
+	// depth is count to merge
 	tri.depth = 1;
 	while (ft_pow(3, tri.depth-1) * 18 < a->size)
 		tri.depth++;
-	tri.size = ft_pow(3, tri.depth);
+	// number of triangle
+	tri.num = ft_pow(3, tri.depth);
 	num = a->size;
-	size = a->size;
-	i = -1;
-	tri.tri = (t_node3 *)malloc(sizeof(t_node3));
-	curr = tri.tri;
-	ft_printf("depth = %d\n", tri.depth);
+	tri.chunk = (int *)malloc(sizeof(int) * tri.num);
+	tri.order = (int *)malloc(sizeof(int) * tri.num);
+	//ft_printf("depth = %d, number of tri = %d\n", tri.depth, tri.num);
 	tri.push_cnt = 0;
+	i = -1;
 	while (num > 0)
 	{
-		if (++i%3 == 0)
-		{
-			curr->next = (t_node3 *)malloc(sizeof(t_node3));
-			curr->level = 1;
-			curr = curr->next;
-		}
+		++i;
+		tri.chunk[i] = num/(tri.num-i);
+		num -= num/(tri.num-i);
 
-		curr->chunk[i % 3] = num/(tri.size-i);
-		num -= num/(tri.size-i);
-		if (num >= size/3*2 || num <= size/3)
-			curr->order[i%3] = 0;
-		else
-			curr->order[i%3] = 1;
-		if (num <= size/3)
-			tri.push_cnt += curr->chunk[i%3];
-		if (curr->chunk[i % 3] > 2 && curr->order[i%3] < 2)
+		if (i >= tri.num/3*2)
+			tri.push_cnt += tri.chunk[i];
+	//	ft_printf("i = %d, tri.chunk[%d] = %d\n", i, i, tri.chunk[i]);
+		if (tri.chunk[i] > 2)
 		{
 			if (tri.depth % 2 == 1)
-				cmd_multiply("pb", curr->chunk[i%3]/3, cmd, a, b);
+				cmd_multiply("pb", tri.chunk[i]/3, cmd, a, b);
 			else
-				cmd_multiply("pb", curr->chunk[i%3]-curr->chunk[i%3]/3, cmd, a, b);
+				cmd_multiply("pb", tri.chunk[i]-tri.chunk[i]/3, cmd, a, b);
 		}
-		ft_printf("chunk = %d num = %d size = %d", curr->chunk[i%3], num, a->size);
-		ft_printf("order = %d\n", curr->order[i%3]);
 	}
-	print_stack(a, b);
-	if (a->size <= 5)
-		sort_small_a(cmd, a, b);
-	else if (tri.depth-- % 2 == 1)
-		init_triangle_b(cmd, a, b, &tri);
-	//else
-	//	init_triangle_a(cmd, a, b);
+	tri.order[0] = INC;
+	num = -1;
+	while (ft_pow(3, ++num) < tri.num)
+	{
+		i = -1;
+		while (++i < ft_pow(3, num))
+		{
+			tri.order[ft_pow(3, num)*2 - i -1] = tri.order[i] * -1;
+			tri.order[ft_pow(3, num)*3 - i -1] = tri.order[i] * -1;
+		}
+		i = -1;
+		while (++i < ft_pow(3, num+1))
+		{
+	//		ft_printf("%d ", tri.order[i]);
+		}
+	//	ft_printf("\n");
+	}
 
-	//while (tri.depth--)
-	//{
-	//	if (tri.depth % 2 == 1)
-	//		merge_a2b(cmd, a, b, &tri);
-	//	else
-	//		merge_b2a(cmd, a, b. &tri);
-	//}
+	
+//	print_stack(a, b);
+//	ft_printf("init_triangle\n");
+
+	if (tri.depth % 2 == 1)
+		init_triangle_b(cmd, a, b, &tri);
+	else
+		init_triangle_a(cmd, a, b, &tri);
+
+//	ft_printf("merge\n");
+	while (tri.depth--)
+	{
+//		ft_printf("depth = %d\n", tri.depth);
+		if (tri.depth % 2 == 1)
+			merge_a2b(cmd, a, b, &tri);
+		else
+			merge_b2a(cmd, a, b, &tri);
+	}
 }
 
 
@@ -325,46 +383,14 @@ int	main(int argc, char *argv[])
 
 	init(&cmd, &a, &b);
 	check_err(argc, argv, &a);
-	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
-	print_stack(&a, &b);
+//	ft_printf("inv_cnt = %d\nbefore sort\n", cnt_inverse_order(&a));
+//	print_stack(&a, &b);
 	sort_stack(&cmd, &a, &b);
 //	ft_printf("inv_cnt = %d\nafter sort\n", cnt_inverse_order(&a));
-	print_stack(&a, &b);
+//	print_stack(&a, &b);
 	print_cmd(&cmd);
 
 	// exit_program (free, error handling)
 }
 
 
-/*
-step 1 -> 스택a의 요소 중 1/3을 스택b로 푸시
-	b로 푸시하는 과정에서 정렬? 내림차순으로
-a : 1 9 4 | 2 5 3 7 8 6 0
-pb pb pb
-
-step 2 -> a의 양끝과 b의 끝 총 세 요소를 비교하여 b의 탑에 정렬
-a : 2/ 5 3 7 8 6 0/
-b : 4 9 1/
-rra pb
-
-a : 2/ 5 3 7 8 6/
-b : 0 | 4 9 1/
-rrb
-
-a : 2/ 5 3 7 8 6/
-b : 1 0 | 4 9/
-pb
-
-a : 5/ 3/ 7 8 6/
-b : 2 1 0 | 4 9/
-pb pb
-
-a : 7/ 8 6/
-b : 3 5 2 1 0 | 4 9/
-rra pb pb pb rrb
-
-a :  
-b : 9 8 7 6 3 5 2 1 0 | 4
-
-
-*/

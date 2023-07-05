@@ -32,5 +32,5 @@ void	print_cmd(t_cmd *cmd)
 		ft_printf("%s\n", curr->cmd);
 		curr = curr->next;
 	}
-	ft_printf("cnt = %d\n", num);
+//	ft_printf("cnt = %d\n", num);
 }

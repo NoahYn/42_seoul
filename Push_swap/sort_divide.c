@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_divide.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkyeki <minkyeki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 20:25:32 by minkyeki          #+#    #+#             */
-/*   Updated: 2022/06/16 21:03:16 by minkyeki         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:06 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	mirror_tri_part1(t_darray *tri_map, int map_size_prev)
 		tmp = ((t_triangle *)(tri_map->data[map_size_prev - 1 - i]));
 		darray_push_back(tri_map, \
 				create_triangle(tmp->inc_or_dec * -1, \
-					tmp->size / 3 + tmp->size % 3, tmp->a_or_b * -1));
-		tmp->size /= 3;
+					tmp->num / 3 + tmp->num % 3, tmp->a_or_b * -1));
+		tmp->num /= 3;
 		tmp->a_or_b *= -1;
 	}
 }
@@ -39,7 +39,7 @@ void	mirror_tri_part2(t_darray *tri_map, int map_size_prev)
 	{
 		tmp = ((t_triangle *)(tri_map->data[map_size_prev - 1 - i]));
 		darray_push_back(tri_map, \
-				create_triangle(tmp->inc_or_dec * -1, tmp->size, tmp->a_or_b));
+				create_triangle(tmp->inc_or_dec * -1, tmp->num, tmp->a_or_b));
 	}
 }
 
@@ -53,7 +53,7 @@ t_darray	*make_tri_map(int total_num)
 		darray_push_back(tri_map, create_triangle(INC, total_num, A));
 	else
 		darray_push_back(tri_map, create_triangle(DEC, total_num, B));
-	while (((t_triangle *)(tri_map->data[0]))->size > TRI_MAX)
+	while (((t_triangle *)(tri_map->data[0]))->num > TRI_MAX)
 	{
 		map_size_prev = tri_map->size;
 		mirror_tri_part1(tri_map, map_size_prev);

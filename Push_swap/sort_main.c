@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:19:21 by minkyeki          #+#    #+#             */
-/*   Updated: 2023/06/29 20:36:44 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:07 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	sort_stack(t_push_swap *data)
 	{
 		data->tri_map = make_tri_map(data->stack_a->stack->size);
 		tringify(data);
-		while (((t_triangle *)data->tri_map->data[0])->size \
+		while (((t_triangle *)data->tri_map->data[0])->num \
 				< data->total_input_cnt)
 			merge(data);
 		if (data->stack_a->stack->size == 0)

@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/04 22:17:39 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/05 13:16:53 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,11 @@ typedef struct s_cmd {
 	t_node2 *last;
 }	t_cmd;
 
-typedef struct s_node3 {
-	int				level;
-	int				order[3];
-	int				chunk[3];
-	struct s_node3 *next;
-}	t_node3;
-
 typedef struct s_triangle {
-	t_node3	*tri;
+	int		*chunk;
+	int		*order;
+	int		num;
 	int		depth;
-	int		size;
 	int		push_cnt;
 }	t_triangle;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkyeki <minkyeki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:10:54 by minkyeki          #+#    #+#             */
-/*   Updated: 2022/06/18 23:41:29 by minkyeki         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:07 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_stack2 {
 }	t_stack2;
 
 typedef struct s_triangle {
-	int	size;
+	int	num;
 	int	inc_or_dec;
 	int	a_or_b;
 }	t_triangle;
