@@ -6,73 +6,59 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:10:07 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 21:40:58 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 00:32:41 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	cmd_multiply(char *cmdset, int num, t_cmd *cmd, t_stack *a, t_stack *b)
+void	print_cmd(t_cmd *cmd)
 {
-	while (num--)
+	t_node2	*curr;
+
+	curr = cmd->first->next;
+	while (curr)
 	{
-		do_cmds(cmdset, cmd, a, b);
+		ft_printf("%s\n", curr->cmd);
+		curr = curr->next;
 	}
 }
 
-void	do_cmds(char *cmdset, t_cmd *cmd, t_stack *a, t_stack *b)
+void	do_cmds(t_pushswap *ps, char *cmdset, int num)
 {
-	int		i;
-	int		flag;
-	char	**split;
+	int	i;
 
-	split = ft_split(cmdset, ' ');
-	i = -1;
-	flag = 0;
-	while (split[++i])
+	ps->split = ft_split(cmdset, ' ');
+	while (num--)
 	{
-		if (ft_strncmp(split[i], "pa", 2) == 0)
-			pa(cmd, a, b);
-		else if (ft_strncmp(split[i], "pb", 2) == 0)
-			pb(cmd, a, b);
-		else if (ft_strncmp(split[i], "sa", 2) == 0)
-			sa(cmd, a, b);
-		else if (ft_strncmp(split[i], "sb", 2) == 0)
-			sb(cmd, a, b);
-		else if (ft_strncmp(split[i], "ra", 2) == 0)
-			ra(cmd, a, b);
-		else if (ft_strncmp(split[i], "rb", 2) == 0)
-			rb(cmd, a, b);
-		else if (ft_strncmp(split[i], "rra", 3) == 0)
-			rra(cmd, a, b);
-		else if (ft_strncmp(split[i], "rrb", 3) == 0)
-			rrb(cmd, a, b);
-		else if (ft_strncmp(split[i], "rrr", 3) == 0)
+		i = -1;
+		while (ps->split[++i])
 		{
-			rra(cmd, a, b);
-			rrb(cmd, a, b);
+			if (ft_strncmp(ps->split[i], "pa", 2) == 0)
+				pa(ps);
+			else if (ft_strncmp(ps->split[i], "pb", 2) == 0)
+				pb(ps);
+			else if (ft_strncmp(ps->split[i], "sa", 2) == 0)
+				sa(ps);
+			else if (ft_strncmp(ps->split[i], "sb", 2) == 0)
+				sb(ps);
+			else if (ft_strncmp(ps->split[i], "ra", 2) == 0)
+				ra(ps);
+			else if (ft_strncmp(ps->split[i], "rb", 2) == 0)
+				rb(ps);
+			else if (ft_strncmp(ps->split[i], "rra", 3) == 0)
+				rra(ps);
+			else if (ft_strncmp(ps->split[i], "rrb", 3) == 0)
+				rrb(ps);
+			else if (ft_strncmp(ps->split[i], "rrr", 3) == 0)
+				do_cmds(ps, "rra rrb", 1);
+			else if (ft_strncmp(ps->split[i], "rr", 2) == 0)
+				do_cmds(ps, "ra rb", 1);
+			else if (ft_strncmp(ps->split[i], "ss", 2) == 0)
+				do_cmds(ps, "sa sb", 1);
+			else
+				exit_program(ps, "Error\n");
 		}
-		else if (ft_strncmp(split[i], "rr", 2) == 0)
-		{
-			ra(cmd, a, b);
-			rb(cmd, a, b);
-		}
-		else if (ft_strncmp(split[i], "ss", 2) == 0)
-		{
-			sa(cmd, a, b);
-			sb(cmd, a, b);
-		}
-		else
-		{
-			flag = 1;
-			break ;
-		}
-		free(split[i]);
 	}
-	free(split);
-	if (flag)
-	{
-		ft_printf("Error\n");
-		exit_program(cmd, a, b, 0);
-	}
+	free_split(ps->split);
 }

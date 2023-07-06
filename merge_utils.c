@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:04:31 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 22:17:38 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 23:52:35 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	min_element(int num, int *arr, int *size)
 	return (min_idx +1);
 }
 
-void	init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+void	init_triunit_b(t_pushswap *ps)
 {
 	int			vtx[6];
 	int			size[6];
@@ -70,15 +70,15 @@ void	init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 	int			j;
 
 	i = -1;
-	while (++i < tri->num)
+	while (++i < ps->tri.num)
 	{
 		j = -1;
 		while (++j < 6)
 			size[j] = 1;
 		j = 0;
-		while (j++ < tri->chunk[i])
+		while (j++ < ps->tri.chunk[i])
 		{
-			if (a->size > 0)
+			if (ps->a.size > 0)
 			{
 				vtx[0] = AT;
 				vtx[1] = AB;
@@ -92,14 +92,14 @@ void	init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 				size[3] = 0;
 				size[4] = 0;
 			}
-			if (a->size > 1)
+			if (ps->a.size > 1)
 			{
 				if (size[0] == 1)
 					vtx[3] = AS;
 				if (size[1] == 1)
 					vtx[4] = AB2;
 			}
-			if (b->size > 0)
+			if (ps->b.size > 0)
 			{
 				vtx[2] = BB;
 				vtx[5] = BB;
@@ -109,17 +109,17 @@ void	init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 				size[2] = 0;
 				size[5] = 0;
 			}
-			if (b->size > 1 && size[2] == 1)
+			if (ps->b.size > 1 && size[2] == 1)
 				vtx[5] = BB2;
-			if (tri->order[i] == DEC)
-				merge_aab(cmd, a, b, min_element(tri->chunk[i], vtx, size));
+			if (ps->tri.order[i] == DEC)
+				merge_aab(ps, min_element(ps->tri.chunk[i], vtx, size));
 			else
-				merge_aab(cmd, a, b, max_element(tri->chunk[i], vtx, size));
+				merge_aab(ps, max_element(ps->tri.chunk[i], vtx, size));
 		}
 	}
 }
 
-void	init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+void	init_triunit_a(t_pushswap *ps)
 {
 	int			vtx[6];
 	int			size[6];
@@ -127,15 +127,15 @@ void	init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 	int			j;
 
 	i = -1;
-	while (++i < tri->num)
+	while (++i < ps->tri.num)
 	{
 		j = -1;
 		while (++j < 6)
 			size[j] = 1;
 		j = 0;
-		while (j++ < tri->chunk[i])
+		while (j++ < ps->tri.chunk[i])
 		{
-			if (b->size > 0)
+			if (ps->b.size > 0)
 			{
 				vtx[0] = BT;
 				vtx[1] = BB;
@@ -149,7 +149,7 @@ void	init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 				size[3] = 0;
 				size[4] = 0;
 			}
-			if (a->size > 0)
+			if (ps->a.size > 0)
 			{
 				vtx[2] = AB;
 				vtx[5] = AB;
@@ -159,19 +159,19 @@ void	init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 				size[2] = 0;
 				size[5] = 0;
 			}
-			if (b->size > 1)
+			if (ps->b.size > 1)
 			{
 				if (size[0] == 1)
 					vtx[3] = BS;
 				if (size[1] == 1)
 					vtx[4] = BB2;
 			}
-			if (a->size > 1 && size[2] == 1)
+			if (ps->a.size > 1 && size[2] == 1)
 				vtx[5] = AB2;
-			if (tri->order[i] == DEC)
-				merge_bba(cmd, a, b, min_element(tri->chunk[i], vtx, size));
+			if (ps->tri.order[i] == DEC)
+				merge_bba(ps, min_element(ps->tri.chunk[i], vtx, size));
 			else
-				merge_bba(cmd, a, b, max_element(tri->chunk[i], vtx, size));
+				merge_bba(ps, max_element(ps->tri.chunk[i], vtx, size));
 		}
 	}
 }

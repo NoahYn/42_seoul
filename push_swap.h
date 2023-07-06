@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 22:21:49 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 00:34:33 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@
 # define INC 1
 # define DEC -1
 
-# define AT	a->top->item
-# define AS	a->top->prev->item
-# define AB	a->bottom->item
-# define AB2 a->bottom->next->item
+# define AT	ps->a.top->item
+# define AS	ps->a.top->prev->item
+# define AB	ps->a.bottom->item
+# define AB2 ps->a.bottom->next->item
 
-# define BT b->top->item
-# define BS b->top->prev->item
-# define BB b->bottom->item
-# define BB2 b->bottom->next->item
+# define BT ps->b.top->item
+# define BS ps->b.top->prev->item
+# define BB ps->b.bottom->item
+# define BB2 ps->b.bottom->next->item
 
 typedef struct s_node {
 	int				item;
@@ -75,14 +75,16 @@ typedef struct s_pushswap {
 	t_stack		b;
 	t_cmd		cmd;
 	t_triangle	tri;
+	t_bst		*bst;
+	char		**split;
 }	t_pushswap;
 
-// errorhandle.c
 void		init(t_pushswap *ps);
 long long	ft_atoll(const char *str);
-int			isdup(t_bst *curr, int num);
-void		check_err(t_cmd *cmd, t_stack *a, t_stack *b, char *argv[]);
+// errorhandle.c
+void		check_err(t_pushswap *ps, char *argv[]);
 int			cnt_inverse_order(t_stack *stk);
+int			isdup(t_bst *curr, int num);
 
 // stack function -> stk_fn.c
 void		push(t_stack *stk, int item);
@@ -92,48 +94,45 @@ void		rotate(t_stack *stk);
 void		reverse_rotate(t_stack *stk);
 
 // stack command -> stk_cmd[1,2].c
-void		pa(t_cmd *cmd, t_stack *a, t_stack *b);
-void		pb(t_cmd *cmd, t_stack *a, t_stack *b);
-void		sa(t_cmd *cmd, t_stack *a, t_stack *b);
-void		sb(t_cmd *cmd, t_stack *a, t_stack *b);
-void		ss(t_cmd *cmd, t_stack *a, t_stack *b);
-void		ra(t_cmd *cmd, t_stack *a, t_stack *b);
-void		rb(t_cmd *cmd, t_stack *a, t_stack *b);
-void		rr(t_cmd *cmd, t_stack *a, t_stack *b);
-void		rra(t_cmd *cmd, t_stack *a, t_stack *b);
-void		rrb(t_cmd *cmd, t_stack *a, t_stack *b);
-void		rrr(t_cmd *cmd, t_stack *a, t_stack *b);
+void		pa(t_pushswap *ps);
+void		pb(t_pushswap *ps);
+void		sa(t_pushswap *ps);
+void		sb(t_pushswap *ps);
+void		ra(t_pushswap *ps);
+void		rb(t_pushswap *ps);
+void		rra(t_pushswap *ps);
+void		rrb(t_pushswap *ps);
 
 // debug.c
 void		print_stack(t_stack *a, t_stack *b);
 void		print_cmd(t_cmd *cmd);
 
 // cmd_utils.c
-void		do_cmds(char *cmdset, t_cmd *cmd, t_stack *a, t_stack *b);
-void		cmd_multiply(char *cmdset, int num, t_cmd *cmd, t_stack *a, t_stack *b);
+void		do_cmds(t_pushswap *ps, char *cmdset, int num);
 
 // sort_small.c
-void		sort_small_a(t_cmd *cmd, t_stack *a, t_stack *b);
+void		sort_small_a(t_pushswap *ps);
 void		find_min(int min_idx[2], t_stack *stk);
-void		sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b);
-void		pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num);
+void		sort_three_a(t_pushswap *ps);
+void		pb_min(t_pushswap *ps, int num);
 
 // merge.c
-void		merge_aab(t_cmd *cmd, t_stack *a, t_stack *b, int seq);
-void		merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq);
-void		merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
-void		merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		merge_aab(t_pushswap *ps, int seq);
+void		merge_bba(t_pushswap *ps, int seq);
+void		merge_a2b(t_pushswap *ps);
+void		merge_b2a(t_pushswap *ps);
 
 // merge_utils.c
 int			max_element(int num, int *arr, int *size);
 int			min_element(int num, int *arr, int *size);
-void		init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
-void		init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		init_triunit_a(t_pushswap *ps);
+void		init_triunit_b(t_pushswap *ps);
 
 // free.c
+void		free_split(char **split);
 void		free_stack(t_stack *stk);
 void		free_cmd(t_cmd *cmd);
 void		free_bst(t_bst *bst);
-void		exit_program(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		exit_program(t_pushswap *ps, char *str);
 
 #endif

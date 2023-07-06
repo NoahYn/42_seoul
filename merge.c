@@ -6,110 +6,110 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:12:40 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 21:02:01 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 23:59:04 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	merge_aab(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
+void	merge_aab(t_pushswap *ps, int seq)
 {
 	if (seq == 1)
-		pb(cmd, a, b);
+		pb(ps);
 	else if (seq == 2)
-		do_cmds("rra pb", cmd, a, b);
+		do_cmds(ps, "rra pb", 1);
 	else if (seq == 3)
-		rrb(cmd, a, b);
+		rrb(ps);
 	else if (seq == 4)
-		do_cmds("sa pb", cmd, a, b);
+		do_cmds(ps, "sa pb", 1);
 	else if (seq == 5)
-		do_cmds("rra rra pb ra", cmd, a, b);
+		do_cmds(ps, "rra rra pb ra", 1);
 	else if (seq == 6)
-		do_cmds("rrb rrb sb rb", cmd, a, b);
+		do_cmds(ps, "rrb rrb sb rb", 1);
 }
 
-void	merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq)
+void	merge_bba(t_pushswap *ps, int seq)
 {
 	if (seq == 1)
-		pa(cmd, a, b);
+		pa(ps);
 	else if (seq == 2)
-		do_cmds("rrb pa", cmd, a, b);
+		do_cmds(ps, "rrb pa", 1);
 	else if (seq == 3)
-		rra(cmd, a, b);
+		rra(ps);
 	else if (seq == 4)
-		do_cmds("sb pa", cmd, a, b);
+		do_cmds(ps, "sb pa", 1);
 	else if (seq == 5)
-		do_cmds("rrb rrb pa rb", cmd, a, b);
+		do_cmds(ps, "rrb rrb pa rb", 1);
 	else if (seq == 6)
-		do_cmds("rra rra sa ra", cmd, a, b);
+		do_cmds(ps, "rra rra sa ra", 1);
 }
 
-void	merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+void	merge_a2b(t_pushswap *ps)
 {
 	int		i;
 	int		arr[3];
 	int		size[3];
 
-	cmd_multiply("pb", tri->push_cnt, cmd, a, b);
-	tri->push_cnt = 0;
-	tri->num /= 3;
+	do_cmds(ps, "pb", ps->tri.push_cnt);
+	ps->tri.push_cnt = 0;
+	ps->tri.num /= 3;
 	i = -1;
-	while (++i < tri->num)
+	while (++i < ps->tri.num)
 	{
-		size[1] = tri->chunk[i];
-		size[0] = tri->chunk[tri->num * 2 - i -1];
-		size[2] = tri->chunk[tri->num * 3 - i -1];
-		tri->chunk[i] = size[0] + size[1] + size[2];
-		if (i >= tri->num / 3 * 2)
-			tri->push_cnt += tri->chunk[i];
+		size[1] = ps->tri.chunk[i];
+		size[0] = ps->tri.chunk[ps->tri.num * 2 - i -1];
+		size[2] = ps->tri.chunk[ps->tri.num * 3 - i -1];
+		ps->tri.chunk[i] = size[0] + size[1] + size[2];
+		if (i >= ps->tri.num / 3 * 2)
+			ps->tri.push_cnt += ps->tri.chunk[i];
 		while (size[0] || size[1] || size[2])
 		{
-			if (a->size > 0)
+			if (ps->a.size > 0)
 			{
 				arr[0] = AT;
 				arr[1] = AB;
 			}
-			if (b->size > 0)
+			if (ps->b.size > 0)
 				arr[2] = BB;
-			if (tri->order[i] == DEC)
-				merge_aab(cmd, a, b, min_element(3, arr, size));
+			if (ps->tri.order[i] == DEC)
+				merge_aab(ps, min_element(3, arr, size));
 			else
-				merge_aab(cmd, a, b, max_element(3, arr, size));
+				merge_aab(ps, max_element(3, arr, size));
 		}
 	}
 }
 
-void	merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+void	merge_b2a(t_pushswap *ps)
 {
 	int		i;
 	int		arr[3];
 	int		size[3];
 
-	cmd_multiply("pa", tri->push_cnt, cmd, a, b);
-	tri->push_cnt = 0;
-	tri->num /= 3;
+	do_cmds(ps, "pa", ps->tri.push_cnt);
+	ps->tri.push_cnt = 0;
+	ps->tri.num /= 3;
 	i = -1;
-	while (++i < tri->num)
+	while (++i < ps->tri.num)
 	{
-		size[1] = tri->chunk[i];
-		size[0] = tri->chunk[tri->num * 2 - i -1];
-		size[2] = tri->chunk[tri->num * 3 - i -1];
-		tri->chunk[i] = size[0] + size[1] + size[2];
-		if (i >= tri->num / 3 * 2)
-			tri->push_cnt += tri->chunk[i];
+		size[1] = ps->tri.chunk[i];
+		size[0] = ps->tri.chunk[ps->tri.num * 2 - i -1];
+		size[2] = ps->tri.chunk[ps->tri.num * 3 - i -1];
+		ps->tri.chunk[i] = size[0] + size[1] + size[2];
+		if (i >= ps->tri.num / 3 * 2)
+			ps->tri.push_cnt += ps->tri.chunk[i];
 		while (size[0] || size[1] || size[2])
 		{
-			if (b->size > 0)
+			if (ps->b.size > 0)
 			{
 				arr[0] = BT;
 				arr[1] = BB;
 			}
-			if (a->size > 0)
+			if (ps->a.size > 0)
 				arr[2] = AB;
-			if (tri->order[i] == DEC)
-				merge_bba(cmd, a, b, min_element(3, arr, size));
+			if (ps->tri.order[i] == DEC)
+				merge_bba(ps, min_element(3, arr, size));
 			else
-				merge_bba(cmd, a, b, max_element(3, arr, size));
+				merge_bba(ps, max_element(3, arr, size));
 		}
 	}
 }
