@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/05 13:16:53 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 17:21:13 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ typedef struct s_stack {
 	int		size;
 }	t_stack;
 typedef struct s_node2 {
-	char cmd[4];
-	struct s_node2 *prev;
-	struct s_node2 *next;
+	char			cmd[4];
+	struct s_node2	*prev;
+	struct s_node2	*next;
 }	t_node2;
 // node for cmd set
 typedef struct s_cmd {
-	t_node2 *first;
-	t_node2 *last;
+	t_node2	*first;
+	t_node2	*last;
 }	t_cmd;
 
 typedef struct s_triangle {
@@ -64,21 +64,17 @@ typedef struct s_triangle {
 	int		push_cnt;
 }	t_triangle;
 
-
-
 typedef struct s_bst {
 	long long		item;
 	struct s_bst	*left;
 	struct s_bst	*right;
 }	t_bst;
 
-
-
 // errorhandle.c
 void		init(t_cmd *cmd, t_stack *a, t_stack *b);
 long long	ft_atoll(const char *str);
 int			isdup(t_bst *curr, int num);
-void		check_err(int argc, char *argv[], t_stack *a);
+void		check_err(t_cmd *cmd, t_stack *a, t_stack *b, int argc, char *argv[]);
 int			cnt_inverse_order(t_stack *stk);
 
 // stack function -> stk_fn.c
@@ -115,7 +111,21 @@ void		find_min(int min_idx[2], t_stack *stk);
 void		sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b);
 void		pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num);
 
+// merge.c
+void		merge_aab(t_cmd *cmd, t_stack *a, t_stack *b, int seq);
+void		merge_bba(t_cmd *cmd, t_stack *a, t_stack *b, int seq);
+void		merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+
+// merge_utils.c
+int			max_element(int num, int *arr, int *size);
+int			min_element(int num, int *arr, int *size);
+void		init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		init_triangle_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+
+// free.c
+void		free_stack(t_stack *stk);
+void		free_cmd(t_cmd *cmd);
+void		exit_program(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
 
 #endif
-
-

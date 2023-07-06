@@ -1,8 +1,12 @@
 NAME = push_swap
-SRCS = main.c errorhandle.c debug.c \
+BONUS = checker
+
+SRCS = main.c errorhandle.c free.c \
 	stk_fn.c stk_cmd1.c stk_cmd2.c \
-	cmd_utils.c \
-	sort_small.c
+	debug.c cmd_utils.c \
+	sort_small.c \
+	merge.c merge_utils.c
+SRCS_BNS = bonus.c
 
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
@@ -28,7 +32,10 @@ fclean :
 
 re : fclean all
 
-bonus : all
+bonus : all $(BONUS)
+
+$(BONUS) : $(LIB)
+	$(CC) $(FLAGS) -o $(BONUS) $(SRCS_BNS) $(LIB)
 
 debug : $(DBG)
 

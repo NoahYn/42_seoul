@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 19:03:21 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/27 17:35:59 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 17:01:37 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (result);
 }
-

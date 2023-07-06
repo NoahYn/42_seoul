@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/06 17:10:07 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/07/06 17:11:04 by sunyoon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	cmd_multiply(char *cmdset, int num, t_cmd *cmd, t_stack *a, t_stack *b)
@@ -5,7 +17,7 @@ void	cmd_multiply(char *cmdset, int num, t_cmd *cmd, t_stack *a, t_stack *b)
 	while (num--)
 	{
 		do_cmds(cmdset, cmd, a, b);
-	}	
+	}
 }
 
 void	do_cmds(char *cmdset, t_cmd *cmd, t_stack *a, t_stack *b)

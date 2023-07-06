@@ -6,13 +6,13 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:01:50 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/28 16:47:47 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 17:01:14 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-# include <unistd.h>
-# include <stdarg.h>
+#include <unistd.h>
+#include <stdarg.h>
 
 static int	parse_format(const char format, va_list ap)
 {

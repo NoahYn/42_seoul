@@ -2,7 +2,7 @@
 
 void	init(t_cmd *cmd, t_stack *a, t_stack *b)
 {
-	t_node2	*dummy;
+	t_node2	*cmd_head;
 
 	a->size = 0;
 	a->top = NULL;
@@ -10,12 +10,14 @@ void	init(t_cmd *cmd, t_stack *a, t_stack *b)
 	b->size = 0;
 	b->top = NULL;
 	b->bottom = NULL;
-	dummy = (t_node2 *)malloc(sizeof(t_node2));
-	dummy->next = NULL;
-	dummy->prev = NULL;
-	ft_strlcpy(dummy->cmd, "", 1);
-	cmd->first = dummy;
-	cmd->last = dummy;
+	cmd_head = (t_node2 *)malloc(sizeof(t_node2));
+	if (!cmd_head)
+		exit_program(cmd, a, b, 0);
+	cmd_head->next = NULL;
+	cmd_head->prev = NULL;
+	ft_strlcpy(cmd_head->cmd, "", 1);
+	cmd->first = cmd_head;
+	cmd->last = cmd_head;
 }
 
 long long	ft_atoll(const char *str)
@@ -63,10 +65,12 @@ int	isdup(t_bst *curr, int num)
 	else if (num > parent->item)
 		parent->right = curr;
 	curr->item = num;
+	curr->left = 0;
+	curr->right = 0;
 	return (0);
 }
 
-int cnt_inverse_order(t_stack *stk)
+int	cnt_inverse_order(t_stack *stk)
 {
 	int		cnt;
 	t_node	*curr;
@@ -84,7 +88,16 @@ int cnt_inverse_order(t_stack *stk)
 	return (cnt);
 }
 
-void	check_err(int argc, char *argv[], t_stack *a)
+void	free_bst(t_bst *root)
+{
+	if (root->left)
+		free_bst(root->left);
+	if (root->right)
+		free_bst(root->right);
+	free(root);
+}
+
+void	check_err(t_cmd *cmd, t_stack *a, t_stack *b, int argc, char *argv[])
 {
 	int			i;
 	char		**split;
@@ -104,12 +117,13 @@ void	check_err(int argc, char *argv[], t_stack *a)
 			if (num != (int)num || isdup(&root, num))
 			{
 				ft_printf("Error\n");
-				exit(1);
+				exit_program(cmd, a, b, 0);
 			}
 			push(a, num);
 			rotate(a);
 		}
 	}
+//	free_bst(&root);
 	if (argc < 2 || !cnt_inverse_order(a))
 		exit(1);
 }

@@ -1,46 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 17:30:27 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:31:25 by sunyoon          ###   ########.fr       */
+/*   Created: 2023/07/06 17:11:56 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/07/06 17:12:24 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void print_stack(t_stack *a, t_stack *b)
+void	free_stack(t_stack *stk)
 {
-	int	size;
-	
-	size = a->size;
-	ft_printf("stack A : ");	
-	while (size--)
+	t_node	*prev;
+	t_node	*curr;
+
+	if (stk->size == 0)
+		return ;
+	curr = stk->bottom;
+	while (stk->size--)
 	{
-		ft_printf("%d ", a->top->item);
-		rotate(a);
+		prev = curr;
+		curr = curr->next;
+		free(prev);
 	}
-	ft_printf("\nstack B : ");
-	size = b->size;
-	while (size--)
-	{
-		ft_printf("%d ", b->top->item);
-		rotate(b);
-	}
-	ft_printf("\n\n");
 }
 
-void	print_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
-	t_node2 *curr;
+	t_node2	*prev;
+	t_node2	*curr;
 
-	curr = cmd->first->next;
+	curr = cmd->first;
 	while (curr)
 	{
-		ft_printf("%s\n", curr->cmd);
+		prev = curr;
 		curr = curr->next;
+		free(prev);
 	}
+}
+
+void	exit_program(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+{
+	free_cmd(cmd);
+	free_stack(a);
+	free_stack(b);
+	if (tri)
+	{
+		free(tri->chunk);
+		free(tri->order);
+	}
+	exit(1);
 }

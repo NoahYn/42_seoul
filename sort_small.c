@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_small.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/06 17:27:29 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/07/06 17:29:11 by sunyoon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	find_min(int min_idx[2], t_stack *stk)
 {
-	int min[2];
-	int	idx;
-	t_node *curr;
+	int		min[2];
+	int		idx;
+	t_node	*curr;
 
 	curr = stk->top;
 	min[0] = INTMAX;
@@ -36,7 +48,7 @@ void	sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b)
 	if (AT < AS && AT < AB)
 	{
 		if (AS < AB)
-			return;
+			return ;
 		sa(cmd, a, b);
 	}
 	if (AT > AS && AT > AB)
@@ -57,12 +69,13 @@ void	sort_three_a(t_cmd *cmd, t_stack *a, t_stack *b)
 
 void	pb_min(t_cmd *cmd, t_stack *a, t_stack *b, int num)
 {
-	int min_idx[2];
+	int	min_idx[2];
 
 	find_min(min_idx, a);
 	if (num == 2)
 	{
-		if (min_idx[0] == 1 || min_idx[1] == 1) ;
+		if (min_idx[0] == 1 || min_idx[1] == 1)
+			;
 		else if (min_idx[0] == 2 || min_idx[1] == 2)
 			ra(cmd, a, b);
 		else if (min_idx[0] == 5 || min_idx[1] == 5)
