@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:04:31 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:09:08 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 22:17:38 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	min_element(int num, int *arr, int *size)
 	return (min_idx +1);
 }
 
-void	init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+void	init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 {
 	int			vtx[6];
 	int			size[6];
@@ -119,7 +119,7 @@ void	init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 	}
 }
 
-void	init_triangle_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
+void	init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 {
 	int			vtx[6];
 	int			size[6];

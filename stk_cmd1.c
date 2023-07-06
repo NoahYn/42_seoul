@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stk_cmd1.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/06 20:48:46 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/07/06 20:49:43 by sunyoon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	pa(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_node2	*newcmd;
 
-	if (b->size == 0) 
+	if (b->size == 0)
 		return ;
 	push(a, pop(b));
 	if (ft_strncmp(cmd->last->cmd, "pb", 3) == 0)
@@ -16,13 +28,12 @@ void	pa(t_cmd *cmd, t_stack *a, t_stack *b)
 	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
 	if (!newcmd)
-		exit(1);
+		exit_program(cmd, a, b, 0);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "pa", 4);
-	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
-	cmd->last = newcmd;	
+	cmd->last = newcmd;
 }
 
 void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
@@ -41,10 +52,9 @@ void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
 	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
 	if (!newcmd)
-		exit(1);
+		exit_program(cmd, a, b, 0);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "pb", 4);
-	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -53,8 +63,7 @@ void	pb(t_cmd *cmd, t_stack *a, t_stack *b)
 void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_node2	*newcmd;
-	
-	b->size = b->size;
+
 	if (a->size < 2)
 		return ;
 	swap(a);
@@ -72,10 +81,9 @@ void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
 	if (!newcmd)
-		exit(1);
+		exit_program(cmd, a, b, 0);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "sa", 4);
-	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -84,8 +92,7 @@ void	sa(t_cmd *cmd, t_stack *a, t_stack *b)
 void	sb(t_cmd *cmd, t_stack *a, t_stack *b)
 {
 	t_node2	*newcmd;
-	
-	a->size = a->size;
+
 	if (b->size < 2)
 		return ;
 	swap(b);
@@ -103,12 +110,10 @@ void	sb(t_cmd *cmd, t_stack *a, t_stack *b)
 	}
 	newcmd = (t_node2 *)malloc(sizeof(t_node2));
 	if (!newcmd)
-		exit(1);
+		exit_program(cmd, a, b, 0);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "sb", 4);
-	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
 }
-

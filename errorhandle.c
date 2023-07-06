@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errorhandle.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/06 20:58:42 by sunyoon           #+#    #+#             */
+/*   Updated: 2023/07/06 22:25:41 by sunyoon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	init(t_cmd *cmd, t_stack *a, t_stack *b)
+void	init(t_pushswap *ps)
 {
 	t_node2	*cmd_head;
 
-	a->size = 0;
-	a->top = NULL;
-	a->bottom = NULL;
-	b->size = 0;
-	b->top = NULL;
-	b->bottom = NULL;
+	ps->a.size = 0;
+	ps->a.top = NULL;
+	ps->a.bottom = NULL;
+	ps->b.size = 0;
+	ps->b.top = NULL;
+	ps->b.bottom = NULL;
 	cmd_head = (t_node2 *)malloc(sizeof(t_node2));
 	if (!cmd_head)
-		exit_program(cmd, a, b, 0);
+		exit_program(&ps->cmd, &ps->a, &ps->b, 0);
 	cmd_head->next = NULL;
 	cmd_head->prev = NULL;
 	ft_strlcpy(cmd_head->cmd, "", 1);
-	cmd->first = cmd_head;
-	cmd->last = cmd_head;
+	ps->cmd.first = cmd_head;
+	ps->cmd.last = cmd_head;
 }
 
 long long	ft_atoll(const char *str)
@@ -88,42 +100,37 @@ int	cnt_inverse_order(t_stack *stk)
 	return (cnt);
 }
 
-void	free_bst(t_bst *root)
-{
-	if (root->left)
-		free_bst(root->left);
-	if (root->right)
-		free_bst(root->right);
-	free(root);
-}
-
-void	check_err(t_cmd *cmd, t_stack *a, t_stack *b, int argc, char *argv[])
+void	check_err(t_cmd *cmd, t_stack *a, t_stack *b, char *argv[])
 {
 	int			i;
+	int			j;
 	char		**split;
 	long long	num;
-	t_bst		root;
+	t_bst		*root;
 
 	i = 1;
-	root.item = INTOVER;
-	root.left = 0;
-	root.right = 0;
+	root = (t_bst *)malloc(sizeof(t_bst));
+	root->item = INTOVER;
+	root->left = 0;
+	root->right = 0;
 	while (argv[i])
 	{
 		split = ft_split(argv[i++], ' ');
-		while (*split)
+		j = -1;
+		while (split[++j])
 		{
-			num = ft_atoll(*(split++));
-			if (num != (int)num || isdup(&root, num))
+			num = ft_atoll(split[j]);
+			free(split[j]);
+			if (num != (int)num || isdup(root, num))
 			{
 				ft_printf("Error\n");
+				free_bst(root);
 				exit_program(cmd, a, b, 0);
 			}
 			push(a, num);
 			rotate(a);
 		}
+		free(split);
 	}
-//	free_bst(&root);
-	if (argc < 2 || !cnt_inverse_order(a))
-		exit(1);
+	free_bst(root);
 }

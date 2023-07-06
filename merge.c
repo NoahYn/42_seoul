@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:12:40 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:16:58 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 21:02:01 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	merge_a2b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 			else
 				merge_aab(cmd, a, b, max_element(3, arr, size));
 		}
-		print_stack(a, b);
 	}
 }
 
@@ -112,6 +111,5 @@ void	merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)
 			else
 				merge_bba(cmd, a, b, max_element(3, arr, size));
 		}
-		print_stack(a, b);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:11:56 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:12:24 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 22:12:09 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,9 @@
 
 void	free_stack(t_stack *stk)
 {
-	t_node	*prev;
-	t_node	*curr;
-
-	if (stk->size == 0)
-		return ;
-	curr = stk->bottom;
-	while (stk->size--)
+	while (stk->size)
 	{
-		prev = curr;
-		curr = curr->next;
-		free(prev);
+		pop(stk);
 	}
 }
 
@@ -40,6 +32,17 @@ void	free_cmd(t_cmd *cmd)
 		curr = curr->next;
 		free(prev);
 	}
+}
+
+void	free_bst(t_bst *root)
+{
+	if (root == 0)
+		return ;
+	if (root->left)
+		free_bst(root->left);
+	if (root->right)
+		free_bst(root->right);
+	free(root);
 }
 
 void	exit_program(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri)

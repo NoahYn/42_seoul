@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:21:13 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 22:21:49 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,18 @@ typedef struct s_bst {
 	struct s_bst	*right;
 }	t_bst;
 
+typedef struct s_pushswap {
+	t_stack		a;
+	t_stack		b;
+	t_cmd		cmd;
+	t_triangle	tri;
+}	t_pushswap;
+
 // errorhandle.c
-void		init(t_cmd *cmd, t_stack *a, t_stack *b);
+void		init(t_pushswap *ps);
 long long	ft_atoll(const char *str);
 int			isdup(t_bst *curr, int num);
-void		check_err(t_cmd *cmd, t_stack *a, t_stack *b, int argc, char *argv[]);
+void		check_err(t_cmd *cmd, t_stack *a, t_stack *b, char *argv[]);
 int			cnt_inverse_order(t_stack *stk);
 
 // stack function -> stk_fn.c
@@ -84,7 +91,7 @@ void		swap(t_stack *stk);
 void		rotate(t_stack *stk);
 void		reverse_rotate(t_stack *stk);
 
-// stack command -> stk_cmd[1,2,3].c
+// stack command -> stk_cmd[1,2].c
 void		pa(t_cmd *cmd, t_stack *a, t_stack *b);
 void		pb(t_cmd *cmd, t_stack *a, t_stack *b);
 void		sa(t_cmd *cmd, t_stack *a, t_stack *b);
@@ -120,12 +127,13 @@ void		merge_b2a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
 // merge_utils.c
 int			max_element(int num, int *arr, int *size);
 int			min_element(int num, int *arr, int *size);
-void		init_triangle_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
-void		init_triangle_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		init_triunit_b(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
+void		init_triunit_a(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
 
 // free.c
 void		free_stack(t_stack *stk);
 void		free_cmd(t_cmd *cmd);
+void		free_bst(t_bst *bst);
 void		exit_program(t_cmd *cmd, t_stack *a, t_stack *b, t_triangle *tri);
 
 #endif

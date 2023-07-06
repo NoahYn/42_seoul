@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:11:06 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/06/30 13:33:12 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 22:03:43 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	pop(t_stack *stk)
 	if (stk->top)
 		stk->top->next = NULL;
 	free(pop_node);
+	pop_node = 0;
 	return (pop_item);
 }
 
@@ -60,8 +61,8 @@ void	swap(t_stack *stk)
 // down(bottom to top)
 void	rotate(t_stack *stk)
 {
-	if (stk->size == 0) 
-		return;
+	if (stk->size == 0)
+		return ;
 	stk->top->next = stk->bottom;
 	stk->bottom->prev = stk->top;
 	stk->bottom = stk->top;
@@ -73,8 +74,8 @@ void	rotate(t_stack *stk)
 // up(top to bottom)
 void	reverse_rotate(t_stack *stk)
 {
-	if (stk->size == 0) 
-		return;
+	if (stk->size == 0)
+		return ;
 	stk->top->next = stk->bottom;
 	stk->bottom->prev = stk->top;
 	stk->top = stk->bottom;

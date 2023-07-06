@@ -6,18 +6,18 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:30:27 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:31:25 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 20:56:16 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void print_stack(t_stack *a, t_stack *b)
+void	print_stack(t_stack *a, t_stack *b)
 {
 	int	size;
-	
+
 	size = a->size;
-	ft_printf("stack A : ");	
+	ft_printf("stack A : ");
 	while (size--)
 	{
 		ft_printf("%d ", a->top->item);
@@ -35,7 +35,7 @@ void print_stack(t_stack *a, t_stack *b)
 
 void	print_cmd(t_cmd *cmd)
 {
-	t_node2 *curr;
+	t_node2	*curr;
 
 	curr = cmd->first->next;
 	while (curr)

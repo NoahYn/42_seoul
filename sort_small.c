@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:27:29 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:29:11 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 20:50:44 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	find_min(int min_idx[2], t_stack *stk)
 			min[1] = min[0];
 			min_idx[1] = min_idx[0];
 			min[0] = curr->item;
-			min_idx[0] = idx; 
+			min_idx[0] = idx;
 		}
 		else if (min[1] > curr->item)
 		{

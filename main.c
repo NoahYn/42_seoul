@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:25 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 17:27:06 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/06 22:26:11 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 		}
 	}
 	if (tri.depth % 2 == 1)
-		init_triangle_b(cmd, a, b, &tri);
+		init_triunit_b(cmd, a, b, &tri);
 	else
-		init_triangle_a(cmd, a, b, &tri);
+		init_triunit_a(cmd, a, b, &tri);
 	while (tri.depth--)
 	{
 		if (tri.depth % 2 == 1)
@@ -73,15 +73,23 @@ void	sort_stack(t_cmd *cmd, t_stack *a, t_stack *b)
 	}
 }
 
+void leak()
+{
+	system("leaks push_swap");
+}
+
 int	main(int argc, char *argv[])
 {
-	t_stack	a;
-	t_stack	b;
-	t_cmd	cmd;
+	t_pushswap	ps;
 
-	init(&cmd, &a, &b);
-	check_err(&cmd, &a, &b, argc, argv);
-	sort_stack(&cmd, &a, &b);
-	print_cmd(&cmd);
-	exit_program(&cmd, &a, &b, 0);
+	atexit(leak);
+	if (argc < 2)
+		exit(1);
+	init(&ps);
+	check_err(&ps.cmd, &(ps.a), &(ps.b), argv);
+	if (cnt_inverse_order(&ps.a) == 0)
+		exit_program(&ps.cmd, &ps.a, &ps.b, 0);
+	sort_stack(&ps.cmd, &ps.a, &ps.b);
+	print_cmd(&ps.cmd);
+	exit_program(&ps.cmd, &ps.a, &ps.b, 0);
 }
