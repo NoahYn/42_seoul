@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:04:31 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 23:52:35 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 01:29:22 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,29 @@ void	init_triunit_b(t_pushswap *ps)
 	}
 }
 
+void	set_vtx_a(t_pushswap *ps, int vtx[6], int size[6])
+{
+	if (ps->b.size > 0)
+	{
+		vtx[0] = BT;
+		vtx[1] = BB;
+		vtx[3] = BT;
+		vtx[4] = BB;
+	}
+	if (ps->a.size > 0)
+	{
+		vtx[2] = AB;
+		vtx[5] = AB;
+	}
+	if (ps->b.size > 1)
+	{
+		if (size[0] == 1)
+			vtx[3] = BS;
+		if (size[1] == 1)
+			vtx[4] = BB2;
+	}
+}
+
 void	init_triunit_a(t_pushswap *ps)
 {
 	int			vtx[6];
@@ -135,37 +158,7 @@ void	init_triunit_a(t_pushswap *ps)
 		j = 0;
 		while (j++ < ps->tri.chunk[i])
 		{
-			if (ps->b.size > 0)
-			{
-				vtx[0] = BT;
-				vtx[1] = BB;
-				vtx[3] = BT;
-				vtx[4] = BB;
-			}
-			else
-			{
-				size[0] = 0;
-				size[1] = 0;
-				size[3] = 0;
-				size[4] = 0;
-			}
-			if (ps->a.size > 0)
-			{
-				vtx[2] = AB;
-				vtx[5] = AB;
-			}
-			else
-			{
-				size[2] = 0;
-				size[5] = 0;
-			}
-			if (ps->b.size > 1)
-			{
-				if (size[0] == 1)
-					vtx[3] = BS;
-				if (size[1] == 1)
-					vtx[4] = BB2;
-			}
+			set_vtx_a(ps, vtx, size);
 			if (ps->a.size > 1 && size[2] == 1)
 				vtx[5] = AB2;
 			if (ps->tri.order[i] == DEC)

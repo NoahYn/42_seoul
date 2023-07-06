@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/07 00:34:33 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 01:31:00 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,10 @@ void		rrb(t_pushswap *ps);
 
 // debug.c
 void		print_stack(t_stack *a, t_stack *b);
-void		print_cmd(t_cmd *cmd);
 
 // cmd_utils.c
+void		print_cmd(t_cmd *cmd);
+void		str2cmd(t_pushswap *ps, char *cmd);
 void		do_cmds(t_pushswap *ps, char *cmdset, int num);
 
 // sort_small.c
@@ -115,6 +116,12 @@ void		sort_small_a(t_pushswap *ps);
 void		find_min(int min_idx[2], t_stack *stk);
 void		sort_three_a(t_pushswap *ps);
 void		pb_min(t_pushswap *ps, int num);
+
+// triunit.c
+void		set_vtx_a(t_pushswap *ps, int vtx[6], int size[6]);
+void		set_vtx_b(t_pushswap *ps, int vtx[6], int size[6]);
+void		init_triunit_a(t_pushswap *ps);
+void		init_triunit_b(t_pushswap *ps);
 
 // merge.c
 void		merge_aab(t_pushswap *ps, int seq);
@@ -125,8 +132,7 @@ void		merge_b2a(t_pushswap *ps);
 // merge_utils.c
 int			max_element(int num, int *arr, int *size);
 int			min_element(int num, int *arr, int *size);
-void		init_triunit_a(t_pushswap *ps);
-void		init_triunit_b(t_pushswap *ps);
+
 
 // free.c
 void		free_split(char **split);

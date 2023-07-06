@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:12:40 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 23:59:04 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 01:30:08 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ void	merge_a2b(t_pushswap *ps)
 	i = -1;
 	while (++i < ps->tri.num)
 	{
-		size[1] = ps->tri.chunk[i];
 		size[0] = ps->tri.chunk[ps->tri.num * 2 - i -1];
+		size[1] = ps->tri.chunk[i];
 		size[2] = ps->tri.chunk[ps->tri.num * 3 - i -1];
 		ps->tri.chunk[i] = size[0] + size[1] + size[2];
 		if (i >= ps->tri.num / 3 * 2)
 			ps->tri.push_cnt += ps->tri.chunk[i];
 		while (size[0] || size[1] || size[2])
+			
 		{
 			if (ps->a.size > 0)
 			{
