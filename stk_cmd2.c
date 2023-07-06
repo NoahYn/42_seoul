@@ -25,7 +25,7 @@ void	ra(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "ra", 4);
-//	ft_printf("%s\n", newcmd->cmd);
+	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -56,7 +56,7 @@ void	rb(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "rb", 4);
-//	ft_printf("%s\n", newcmd->cmd);
+	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -87,7 +87,7 @@ void	rra(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "rra", 4);
-//	ft_printf("%s\n", newcmd->cmd);
+	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
@@ -118,7 +118,7 @@ void	rrb(t_cmd *cmd, t_stack *a, t_stack *b)
 		exit(1);
 	newcmd->next = 0;
 	ft_strlcpy(newcmd->cmd, "rrb", 4);
-//	ft_printf("%s\n", newcmd->cmd);
+	//ft_printf("%s\n", newcmd->cmd);
 	cmd->last->next = newcmd;
 	newcmd->prev = cmd->last;
 	cmd->last = newcmd;
