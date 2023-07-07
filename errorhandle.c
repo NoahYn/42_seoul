@@ -6,33 +6,11 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 20:58:42 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/07 00:45:17 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 08:57:48 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	init(t_pushswap *ps)
-{
-	t_node2	*cmd_head;
-
-	ps->a.size = 0;
-	ps->a.top = NULL;
-	ps->a.bottom = NULL;
-	ps->b.size = 0;
-	ps->b.top = NULL;
-	ps->b.bottom = NULL;
-	cmd_head = (t_node2 *)malloc(sizeof(t_node2));
-	if (!cmd_head)
-		exit_program(ps, 0);
-	cmd_head->next = NULL;
-	cmd_head->prev = NULL;
-	ft_strlcpy(cmd_head->cmd, "", 1);
-	ps->cmd.first = cmd_head;
-	ps->cmd.last = cmd_head;
-	ps->split = 0;
-	ps->tri.chunk = 0;
-}
 
 long long	ft_atoll(const char *str)
 {
@@ -54,7 +32,21 @@ long long	ft_atoll(const char *str)
 	return (result);
 }
 
-int	isdup(t_bst *curr, int num)
+void	init_bst(t_pushswap *ps, t_bst *curr, t_bst *parent, int num)
+{
+	curr = (t_bst *)malloc(sizeof(t_bst));
+	if (!curr)
+		exit_program(ps, 0);
+	if (num < parent->item)
+		parent->left = curr;
+	else if (num > parent->item)
+		parent->right = curr;
+	curr->item = num;
+	curr->left = 0;
+	curr->right = 0;
+}
+
+int	isdup(t_pushswap *ps, t_bst *curr, int num)
 {
 	t_bst	*parent;
 
@@ -73,14 +65,7 @@ int	isdup(t_bst *curr, int num)
 		else
 			return (1);
 	}
-	curr = (t_bst *)malloc(sizeof(t_bst));
-	if (num < parent->item)
-		parent->left = curr;
-	else if (num > parent->item)
-		parent->right = curr;
-	curr->item = num;
-	curr->left = 0;
-	curr->right = 0;
+	init_bst(ps, curr, parent, num);
 	return (0);
 }
 
@@ -110,6 +95,8 @@ void	check_err(t_pushswap *ps, char *argv[])
 
 	i = 1;
 	ps->bst = (t_bst *)malloc(sizeof(t_bst));
+	if (!ps->bst)
+		exit_program(ps, 0);
 	ps->bst->item = INTOVER;
 	ps->bst->left = 0;
 	ps->bst->right = 0;
@@ -120,9 +107,9 @@ void	check_err(t_pushswap *ps, char *argv[])
 		while (ps->split[++j])
 		{
 			num = ft_atoll(ps->split[j]);
-			if (num != (int)num || isdup(ps->bst, num))
+			if (num != (int)num || isdup(ps, ps->bst, num))
 				exit_program(ps, "Error\n");
-			push(&ps->a, num);
+			push(ps, &ps->a, num);
 			rotate(&ps->a);
 		}
 		free_split(ps->split);

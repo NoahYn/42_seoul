@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:03:00 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/07 00:50:34 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 08:43:48 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char *argv[])
 
 	if (argc < 2)
 		return (0);
-	init(&ps);
+	init_ps(&ps);
 	check_err(&ps, argv);
 	byte = 1;
 	while (byte)

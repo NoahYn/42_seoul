@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:30:47 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/07 01:31:00 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 08:56:46 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@
 # define INC 1
 # define DEC -1
 
-# define AT	ps->a.top->item
-# define AS	ps->a.top->prev->item
-# define AB	ps->a.bottom->item
-# define AB2 ps->a.bottom->next->item
-
-# define BT ps->b.top->item
-# define BS ps->b.top->prev->item
-# define BB ps->b.bottom->item
-# define BB2 ps->b.bottom->next->item
-
 typedef struct s_node {
 	int				item;
 	struct s_node	*next;
@@ -43,8 +33,11 @@ typedef struct s_node {
 typedef struct s_stack {
 	t_node	*top;
 	t_node	*bottom;
+	t_node	*curr;
+	int		idx;
 	int		size;
 }	t_stack;
+
 typedef struct s_node2 {
 	char			cmd[4];
 	struct s_node2	*prev;
@@ -77,17 +70,24 @@ typedef struct s_pushswap {
 	t_triangle	tri;
 	t_bst		*bst;
 	char		**split;
+	int			i;
 }	t_pushswap;
 
-void		init(t_pushswap *ps);
-long long	ft_atoll(const char *str);
+// init.c
+void		init_ps(t_pushswap *ps);
+void		init_triorder(t_pushswap *ps, int num, int i);
+void		init_trichunk(t_pushswap *ps, int num, int i);
+void		init_tri(t_pushswap *ps);
+
 // errorhandle.c
+long long	ft_atoll(const char *str);
 void		check_err(t_pushswap *ps, char *argv[]);
 int			cnt_inverse_order(t_stack *stk);
-int			isdup(t_bst *curr, int num);
+void		init_bst(t_pushswap *ps, t_bst *curr, t_bst *parent, int num);
+int			isdup(t_pushswap *ps, t_bst *curr, int num);
 
 // stack function -> stk_fn.c
-void		push(t_stack *stk, int item);
+void		push(t_pushswap *ps, t_stack *stk, int item);
 int			pop(t_stack *stk);
 void		swap(t_stack *stk);
 void		rotate(t_stack *stk);
@@ -124,15 +124,15 @@ void		init_triunit_a(t_pushswap *ps);
 void		init_triunit_b(t_pushswap *ps);
 
 // merge.c
-void		merge_aab(t_pushswap *ps, int seq);
-void		merge_bba(t_pushswap *ps, int seq);
+void		merge_init(t_pushswap *ps, int size[3]);
 void		merge_a2b(t_pushswap *ps);
 void		merge_b2a(t_pushswap *ps);
 
 // merge_utils.c
 int			max_element(int num, int *arr, int *size);
 int			min_element(int num, int *arr, int *size);
-
+void		merge_aab(t_pushswap *ps, int seq);
+void		merge_bba(t_pushswap *ps, int seq);
 
 // free.c
 void		free_split(char **split);
@@ -142,3 +142,4 @@ void		free_bst(t_bst *bst);
 void		exit_program(t_pushswap *ps, char *str);
 
 #endif
+// malloc -> exit_program, exit->exit_program

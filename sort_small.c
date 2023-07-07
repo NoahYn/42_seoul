@@ -6,7 +6,7 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 17:27:29 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/07 00:02:09 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 08:41:09 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,52 +15,55 @@
 void	find_min(int min_idx[2], t_stack *stk)
 {
 	int		min[2];
-	int		idx;
-	t_node	*curr;
 
-	curr = stk->top;
+	stk->curr = stk->top;
 	min[0] = INTMAX;
 	min[1] = INTMAX;
 	min_idx[0] = -1;
 	min_idx[1] = -1;
-	idx = 0;
-	while (curr)
+	stk->idx = 0;
+	while (stk->curr)
 	{
-		idx++;
-		if (min[0] > curr->item)
+		stk->idx++;
+		if (min[0] > stk->curr->item)
 		{
 			min[1] = min[0];
 			min_idx[1] = min_idx[0];
-			min[0] = curr->item;
-			min_idx[0] = idx;
+			min[0] = stk->curr->item;
+			min_idx[0] = stk->idx;
 		}
-		else if (min[1] > curr->item)
+		else if (min[1] > stk->curr->item)
 		{
-			min[1] = curr->item;
-			min_idx[1] = idx;
+			min[1] = stk->curr->item;
+			min_idx[1] = stk->idx;
 		}
-		curr = curr->prev;
+		stk->curr = stk->curr->prev;
 	}
 }
 
 void	sort_three_a(t_pushswap *ps)
 {
-	if (AT < AS && AT < AB)
+	int	a[3];
+
+	a[0] = ps->a.top->item;
+	a[1] = ps->a.top->prev->item;
+	a[2] = ps->a.bottom->item;
+	if (a[0] < a[1] && a[0] < a[2])
 	{
-		if (AS < AB)
+		if (a[1] < a[2])
 			return ;
-		sa(ps);
+		do_cmds(ps, "rra, sa", 1);
 	}
-	if (AT > AS && AT > AB)
+	else if (a[0] > a[1] && a[0] > a[2])
 	{
-		if (AS < AB)
+		if (a[1] < a[2])
 			ra(ps);
 		else
 			do_cmds(ps, "sa rra", 1);
 	}
 	else
 	{
-		if (AS < AB)
+		if (a[1] < a[2])
 			sa(ps);
 		else
 			rra(ps);
@@ -107,4 +110,6 @@ void	sort_small_a(t_pushswap *ps)
 			sb(ps);
 		do_cmds(ps, "pa", ps->b.size);
 	}
+	print_cmd(&ps->cmd);
+	exit_program(ps, 0);
 }

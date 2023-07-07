@@ -6,19 +6,19 @@
 /*   By: sunyoon <sunyoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:11:06 by sunyoon           #+#    #+#             */
-/*   Updated: 2023/07/06 22:03:43 by sunyoon          ###   ########.fr       */
+/*   Updated: 2023/07/07 08:57:32 by sunyoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	push(t_stack *stk, int item)
+void	push(t_pushswap *ps, t_stack *stk, int item)
 {
 	t_node	*push_node;
 
 	push_node = (t_node *)malloc(sizeof(t_node));
 	if (!push_node)
-		exit(1);
+		exit_program(ps, 0);
 	if (stk->size++ > 0)
 		stk->top->next = push_node;
 	push_node->item = item;
