@@ -1,0 +1,12 @@
+{
+	"files.associations": {
+		"get_next_line.h": "c",
+		"fcntl.h": "c",
+		"unistd.h": "c",
+		"optional": "cpp",
+		"unordered_map": "cpp",
+		"typeinfo": "c",
+		"utils.h": "c",
+		"istream": "c"
+	}
+}
